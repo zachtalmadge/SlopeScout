@@ -7,8 +7,8 @@ class ResortEvent(db.Model, SerializerMixin):
     
     id = db.Column(db.Integer, primary_key=True)
     time = db.Column(db.Integer)
-    resort_id = db.Column(db.Integer, db.ForeignKey('resort.id'))
-    event_id = db.Column(db.Integer, db.ForeignKey('event.id'))
+    resort_id = db.Column(db.Integer, db.ForeignKey('resorts.id'))
+    event_id = db.Column(db.Integer, db.ForeignKey('events.id'))
 
     resort = db.relationship('Resort', back_populates='events')
     event = db.relationship('Event', back_populates='resort_events')

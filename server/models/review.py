@@ -8,8 +8,8 @@ class Review(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.Text)
     rating = db.Column(db.Integer)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    resort_id = db.Column(db.Integer, db.ForeignKey('resort.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    resort_id = db.Column(db.Integer, db.ForeignKey('resorts.id'))
     
     resort = db.relationship('Resort', back_populates='reviews')
     

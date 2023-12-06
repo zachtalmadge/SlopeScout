@@ -34,4 +34,9 @@ if __name__ == '__main__':
     fake = Faker()
     with app.app_context():
         print("Starting seed...")
-        # Seed code goes here!
+        Event.query.delete()
+        ResortEvent.query.delete()
+        Resort.query.delete()
+        Review.query.delete()
+        User.query.delete()
+        UserEvent.query.delete()
