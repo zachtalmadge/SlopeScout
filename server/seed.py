@@ -15,6 +15,21 @@ from models.review import Review
 from models.user import User
 from models.user_event import UserEvent
 
+def create_users():
+    pass
+
+def create_events():
+    pass
+
+def create_resorts():
+    pass
+
+def create_resort_events():
+    pass
+
+def create_reviews():
+    pass
+
 if __name__ == '__main__':
     fake = Faker()
     with app.app_context():
