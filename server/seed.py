@@ -135,7 +135,17 @@ def create_resorts():
     db.session.commit()
 
 def create_resort_events():
-    pass
+    resorts = Resort.query.all()
+    events = Event.query.all()
+
+    for _ in range(100):
+        resort_event = ResortEvent(
+            resort_id=choice(resorts).id,
+            event_id=choice(events).id,
+            time=fake.date_time_this_year()  # Assuming 'time' is a datetime field
+        )
+        db.session.add(resort_event)
+    db.session.commit()
 
 def create_reviews():
     pass
