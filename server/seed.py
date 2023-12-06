@@ -8,12 +8,12 @@ from faker import Faker
 
 # Local imports
 from app import app, db
-from models.event import Event
-from models.resort_event import ResortEvent
-from models.resorts import Resort
-from models.review import Review
-from models.user import User
-from models.user_event import UserEvent
+from models import User
+from models import Event
+from models import ResortEvent
+from models import Resort
+from models import Review
+from models import UserEvent
 
 def create_users():
     pass
