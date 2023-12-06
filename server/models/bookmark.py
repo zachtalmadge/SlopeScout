@@ -10,3 +10,5 @@ class Bookmark(db.Model, SerializerMixin):
     
     user = db.relationship('User', back_populates='bookmarks')
     resort = db.relationship('Resort', back_populates='bookmarks')
+    
+    serialze_rules = ('-resort.bookmarks')

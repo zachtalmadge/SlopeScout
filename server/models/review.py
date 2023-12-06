@@ -11,5 +11,6 @@ class Review(db.Model, SerializerMixin):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     resort_id = db.Column(db.Integer, db.ForeignKey('resort.id'))
     
-    user = db.relationship('User', back_populates='reviews')
     resort = db.relationship('Resort', back_populates='reviews')
+    
+    serialize_rules = ('-resort.reviews')

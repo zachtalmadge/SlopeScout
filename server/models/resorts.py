@@ -16,6 +16,8 @@ class Resort(db.Model, SerializerMixin):
     reviews = db.relationship('Review', back_populates='resort')
     bookmarks = db.relationship('Bookmark', back_populates='resort')
     
+    serialize_rules = ('-events.resort', '-reviews.resort', '-bookmarks.resort')
+    
     @validates('name')
     def validate_name(self, key, name):
         if not name:

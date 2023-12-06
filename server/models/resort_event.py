@@ -12,3 +12,5 @@ class ResortEvent(db.Model, SerializerMixin):
 
     resort = db.relationship('Resort', back_populates='events')
     event = db.relationship('Event', back_populates='resort_events')
+    
+    serialize_rules = ('-resort.events')
