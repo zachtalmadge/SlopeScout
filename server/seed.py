@@ -16,7 +16,11 @@ from models import Review
 from models import UserEvent
 
 def create_users():
-    pass
+    for _ in range(20):
+        user = User()
+        db.session.add(user)
+
+    db.session.commit()
 
 def create_events():
     events = [
@@ -140,8 +144,8 @@ def create_resort_events():
 
     for _ in range(100):
         resort_event = ResortEvent(
-            resort_id=choice(resorts).id,
-            event_id=choice(events).id,
+            resort_id=rc(resorts).id,
+            event_id=rc(events).id,
             time=fake.date_time_this_year()  # Assuming 'time' is a datetime field
         )
         db.session.add(resort_event)
