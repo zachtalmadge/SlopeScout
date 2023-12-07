@@ -17,25 +17,19 @@ class Resorts(Resource):
             print(resorts)
             return {"error": str(e)}, 404
 
-# Get all resorts
-api.add_resource(Resorts, '/resorts')
 
 class Events(Resource):
     def get(self):
         events = Event.query.all()
         return [event.to_dict() for event in events], 200
 
-# Get all types of events
-api.add_resource(Events, '/events')
 
 class ResortByID(Resource):
     def get(self, id):
         if resort := Resort.query.get(id):
-            return resort.serialize()
+            return resort.to_dict()
         return {'message': 'Resort not found'}, 404
 
-# Get resort by ID
-api.add_resource(ResortByID, '/resorts/<int:id>')
 
 class ResortEvents(Resource):
     def post(self, resort_id, event_id):
@@ -52,8 +46,6 @@ class ResortEvents(Resource):
             db.session.rollback()
             return {'message': str(e)}, 500
 
-# Get resort by ID
-api.add_resource(ResortByID, '/resorts/<int:id>')
 
 class ResortReview(Resource):
     def post(self, resort_id):
@@ -61,7 +53,7 @@ class ResortReview(Resource):
         review = Review(text=data['text'], rating=data['rating'], resort_id=resort_id)
         db.session.add(review)
         db.session.commit()
-        return review.serialize(), 201
+        return review.to_dict(), 201
 
     def delete(self, resort_id):
         data = request.get_json()
@@ -81,17 +73,15 @@ class ResortReview(Resource):
             review.text = data.get('text', review.text)
             review.rating = data.get('rating', review.rating)
             db.session.commit()
-            return review.serialize(), 200
+            return review.to_dict(), 200
         return {'message': 'Review not found'}, 404
 
-# Post / Delete / Put a review for a resort
-api.add_resource(ResortReview, '/resort/<int:id>/review')
 
 class UserEvents(Resource):
     def get(self, user_id, resort_event_id):
         try:
             user_events = UserEvent.query.filter_by(user_id=user_id, event_id=resort_event_id).all()
-            return [user_event.serialize() for user_event in user_events], 200
+            return [user_event.to_dict() for user_event in user_events], 200
         except Exception as e:
             return {'message': str(e)}, 500
 
@@ -100,7 +90,7 @@ class UserEvents(Resource):
             user_event = UserEvent(user_id=user_id, event_id=resort_event_id)
             db.session.add(user_event)
             db.session.commit()
-            return user_event.serialize(), 201
+            return user_event.to_dict(), 201
         except Exception as e:
             db.session.rollback()
             return {'message': str(e)}, 500
@@ -115,9 +105,6 @@ class UserEvents(Resource):
         except Exception as e:
             db.session.rollback()
             return {'message': str(e)}, 500
-
-# Get / Post / Delete a user event
-api.add_resource(UserEvents, '/user/<int:user_id>/bookmark/<int:resort_id>')
 
 
 class UserBookmarks(Resource):
@@ -149,9 +136,26 @@ class UserBookmarks(Resource):
             db.session.rollback()
             return {'message': str(e)}, 500
 
+# Get all resorts
+api.add_resource(Resorts, '/resorts')
+
+# Get resort by ID
+api.add_resource(ResortByID, '/resorts/<int:id>')
+
+# Post an event to a resort
+api.add_resource(ResortEvents, '/resort/<int:resort_id>/event/<int:event_id>')
+
+# Post / Delete / Put a review for a resort
+api.add_resource(ResortReview, '/resort/<int:id>/review')
+
 # Get / Post / Delete a user bookmark
 api.add_resource(UserBookmarks, '/user/<int:user_id>/bookmark/<int:resort_id>')
 
+# Get / Post / Delete a user event
+api.add_resource(UserEvents, '/user/<int:user_id>/bookmark/<int:resort_id>')
+
+# Get all types of events
+api.add_resource(Events, '/events')
 
 @app.route('/')
 def index():
