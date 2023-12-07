@@ -28,9 +28,6 @@ class Resort(db.Model, SerializerMixin):
     reviews = db.relationship('Review', back_populates='resort', cascade='all, delete-orphan')
     bookmarks = db.relationship('Bookmark', back_populates='resort', cascade='all, delete-orphan')
     
-    # serialize_rules = ('-events.resort', '-reviews.resort', '-bookmarks.resort')
-    # serialize_only = ('',)
-    
     
     @validates('name')
     def validate_name(self, key, name):
@@ -71,7 +68,6 @@ class Event(db.Model, SerializerMixin):
     
     resort_events = db.relationship('ResortEvent', back_populates='event')
     
-    # serialization_rules = ('-resort_events',)
     serialize_only = ('id', 'name', 'description')
     
     @validates('name')
@@ -120,5 +116,4 @@ class Review(db.Model, SerializerMixin):
     
     resort = db.relationship('Resort', back_populates='reviews')
     
-    # serialize_rules = ('-resort.reviews')
     serialize_only = ('id', 'text', 'rating', 'user_id', 'resort_id')

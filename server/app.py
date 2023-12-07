@@ -22,9 +22,7 @@ class Resorts(Resource):
     def get(self):
         try:
             resorts = Resort.query.all()
-            return [resort.to_dict(
-                    
-                ) for resort in resorts], 200
+            return [resort.to_dict() for resort in resorts], 200
         except Exception as e:
             return {"error": str(e)}, 404
 
@@ -40,16 +38,14 @@ class Events(Resource):
 class ResortByID(Resource):
     def get(self, id):
         if resort := Resort.query.get(id):
-            return resort.to_dict(
-                rules=('-events', '-reviews', '-bookmarks')
-            )
+            return resort.to_dict()
         return {'message': 'Resort not found'}, 404
 
 
 class ResortEvents(Resource):
     def post(self, resort_id, event_id):
             # Assuming event_id is provided in the request body if needed
-            data = request.get_json()
+            # data = request.get_json()
             resort_event = ResortEvent(resort_id=resort_id, event_id=event_id, time=fake.date_time_this_year())
             print(resort_event)
             try:
@@ -65,16 +61,20 @@ class ResortEvents(Resource):
 class ResortReview(Resource):
     def post(self, resort_id):
         data = request.get_json()
-        review = Review(text=data['text'], rating=data['rating'], resort_id=resort_id)
-        db.session.add(review)
-        db.session.commit()
-        return review.to_dict(), 201
+        review = Review(text=data['text'], rating=int(data['rating']), resort_id=resort_id)
+        try:
+            db.session.add(review)
+            db.session.commit()
+            return review.to_dict(
+                rules=('text', 'rating', 'resort_id')
+                ), 201
+        except Exception as e:
+            return {"error": str(e)}, 404
 
     def delete(self, resort_id):
         data = request.get_json()
         review_id = data.get('review_id')
-        review = Review.query.filter_by(id=review_id, resort_id=resort_id).first()
-        if review:
+        if review:= Review.query.filter_by(id=review_id, resort_id=resort_id).first():
             db.session.delete(review)
             db.session.commit()
             return {'message': 'Review deleted'}, 200
@@ -83,8 +83,7 @@ class ResortReview(Resource):
     def put(self, resort_id):
         data = request.get_json()
         review_id = data.get('review_id')
-        review = Review.query.filter_by(id=review_id, resort_id=resort_id).first()
-        if review:
+        if review:= Review.query.filter_by(id=review_id, resort_id=resort_id).first():
             review.text = data.get('text', review.text)
             review.rating = data.get('rating', review.rating)
             db.session.commit()
@@ -95,7 +94,7 @@ class ResortReview(Resource):
 class UserEvents(Resource):
     def get(self, user_id, resort_event_id):
         try:
-            user_events = UserEvent.query.filter_by(user_id=user_id, event_id=resort_event_id).all()
+            user_events = UserEvent.query.filter_by(user_id=user_id).all()
             return [user_event.to_dict() for user_event in user_events], 200
         except Exception as e:
             return {'message': str(e)}, 500
@@ -153,25 +152,26 @@ class UserBookmarks(Resource):
             db.session.rollback()
             return {'message': str(e)}, 500
 
-# Get all resorts ✅
+# Get all resorts ✅✅✅
 api.add_resource(Resorts, '/resorts')
 
-# Get resort by ID ✅
+# Get resort by ID ✅✅✅
 api.add_resource(ResortByID, '/resorts/<int:id>')
 
-# Post an event to a resort
+# Post an event to a resort ✅✅✅
 api.add_resource(ResortEvents, '/resort/<int:resort_id>/event/<int:event_id>')
 
-# Post / Delete / Put a review for a resort
+# Post / Delete / Put a review for a resort 
+# GETTING THIS ERROR "TypeError: delete() got an unexpected keyword argument 'id'"
 api.add_resource(ResortReview, '/resort/<int:id>/review')
 
-# Get / Post / Delete a user bookmark
+# Get / Post / Delete a user bookmark ✅✅✅
 api.add_resource(UserBookmarks, '/user/<int:user_id>/bookmark/<int:resort_id>')
 
-# Get / Post / Delete a user event
-api.add_resource(UserEvents, '/user/<int:user_id>/bookmark/<int:resort_id>')
+# Get / Post / Delete a user event ✅✅✅
+api.add_resource(UserEvents, '/user/<int:user_id>/event/<int:resort_event_id>')
 
-# Get all types of events ✅
+# Get all types of events ✅✅✅
 api.add_resource(Events, '/events')
 
 @app.route('/')
