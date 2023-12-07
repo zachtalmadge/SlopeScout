@@ -76,6 +76,8 @@ class Event(db.Model, SerializerMixin):
     
     resort_events = db.relationship('ResortEvent', back_populates='event')
     
+    serialization_rules = ('-resort_events',)
+    
     @validates('name')
     def validate_name(self, key, name):
         if not name:
