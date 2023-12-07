@@ -29,7 +29,9 @@ class Events(Resource):
 class ResortByID(Resource):
     def get(self, id):
         if resort := Resort.query.get(id):
-            return resort.to_dict()
+            return resort.to_dict(
+                rules=('-events', '-reviews', '-bookmarks')
+            )
         return {'message': 'Resort not found'}, 404
 
 
