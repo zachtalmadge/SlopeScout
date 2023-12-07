@@ -1,6 +1,7 @@
 import App from './app'
 import Home from './pages/Home'
 import AllResorts from './pages/AllResorts/AllResorts'
+import ResortDetails from './pages/ResortDetails'
 import Bookmarks from './pages/Bookmarks/Bookmarks'
 import Events from './pages/Events/Events'
 import MyEvents from './pages/MyEvents/MyEvents'
@@ -20,7 +21,8 @@ const routes = [
                 element: <AllResorts />
             },
             {
-                path: '/resort/:id'
+                path: '/resort/:id',
+                element: <ResortDetails />
             },
             {
                 path: '/events',
