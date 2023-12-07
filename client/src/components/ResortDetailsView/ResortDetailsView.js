@@ -1,40 +1,11 @@
 import React from 'react';
 import { Container, Header, Icon, Image, Button, Grid, Tab } from 'semantic-ui-react';
+import ResortDetailsPanes from '../ResortDetailsPanes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark } from '@fortawesome/free-solid-svg-icons';
 
 const ResortDetailsView = ({ resort }) => {
     const { name, description, state, city, reviews, events } = resort;
-
-    const panes = [
-        {
-            menuItem: 'Reviews',
-            render: () => (
-                <Tab.Pane>
-                    {reviews && reviews.map((review, index) => (
-                        <div key={index}>
-                            <p>{review.text}</p>
-                            <p>Rating: {review.rating}</p>
-                        </div>
-                    ))}
-                </Tab.Pane>
-            ),
-        },
-        {
-            menuItem: 'Events',
-            render: () => (
-                <Tab.Pane>
-                    {events && events.map((event, index) => (
-                        <div key={index}>
-                            <p>{event.event.name}</p>
-                            <p>Description: {event.event.description}</p>
-                            <p>Time: {event.time}</p>
-                        </div>
-                    ))}
-                </Tab.Pane>
-            ),
-        },
-    ];
 
     return (
         <Container>
@@ -58,7 +29,7 @@ const ResortDetailsView = ({ resort }) => {
                         </Button>
                     </Grid.Column>
                     <Grid.Column width={6}>
-                        <Tab panes={panes} />
+                        <ResortDetailsPanes reviews={reviews} events={events} />
                     </Grid.Column>
                 </Grid.Row>
             </Grid>

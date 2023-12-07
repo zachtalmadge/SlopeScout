@@ -146,7 +146,7 @@ def create_resort_events():
     resorts = Resort.query.all()
     events = Event.query.all()
 
-    for _ in range(100):
+    for _ in range(300):
         resort_event = ResortEvent(
             resort_id=rc(resorts).id,
             event_id=rc(events).id,
@@ -159,7 +159,7 @@ def create_reviews():
     users = User.query.all()
     resorts = Resort.query.all()
 
-    for _ in range(10):
+    for _ in range(100):
         review = Review(
             text=fake.text(),
             rating=randint(3, 5),
