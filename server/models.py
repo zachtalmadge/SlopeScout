@@ -120,4 +120,5 @@ class Review(db.Model, SerializerMixin):
     
     resort = db.relationship('Resort', back_populates='reviews')
     
-    serialize_rules = ('-resort.reviews')
+    # serialize_rules = ('-resort.reviews')
+    serialize_only = ('id', 'text', 'rating', 'user_id', 'resort_id')

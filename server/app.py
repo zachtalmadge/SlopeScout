@@ -23,7 +23,7 @@ class Resorts(Resource):
         try:
             resorts = Resort.query.all()
             return [resort.to_dict(
-                    rules=('-reviews',)
+                    
                 ) for resort in resorts], 200
         except Exception as e:
             return {"error": str(e)}, 404
