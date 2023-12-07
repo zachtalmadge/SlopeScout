@@ -2,8 +2,19 @@
 from flask import request
 from flask_restful import Resource
 from config import app, db, api
+from faker import Faker
 
-from models import Resort, Event, User, ResortEvent, UserEvent, Bookmark, Review
+from models import (
+    Resort, 
+    Event, 
+    User, 
+    ResortEvent, 
+    UserEvent, 
+    Bookmark, 
+    Review
+)
+
+fake = Faker()
 
 
 # Routes
@@ -11,19 +22,19 @@ class Resorts(Resource):
     def get(self):
         try:
             resorts = Resort.query.all()
-            print(resorts)
             return [resort.to_dict(
-                    rules=('-events', '-reviews', '-bookmarks')
+                    rules=('-reviews',)
                 ) for resort in resorts], 200
         except Exception as e:
-            print(resorts)
             return {"error": str(e)}, 404
 
 
 class Events(Resource):
     def get(self):
         events = Event.query.all()
-        return [event.to_dict() for event in events], 200
+        return [event.to_dict(
+            rules=('-resort_events',)
+            ) for event in events], 200
 
 
 class ResortByID(Resource):
@@ -37,18 +48,18 @@ class ResortByID(Resource):
 
 class ResortEvents(Resource):
     def post(self, resort_id, event_id):
-        try:
             # Assuming event_id is provided in the request body if needed
             data = request.get_json()
-            resort_event = ResortEvent(resort_id=resort_id, event_id=event_id, time=data.get('time'))
+            resort_event = ResortEvent(resort_id=resort_id, event_id=event_id, time=fake.date_time_this_year())
+            print(resort_event)
+            try:
+                db.session.add(resort_event)
+                db.session.commit()
+                return resort_event.to_dict(), 201
 
-            db.session.add(resort_event)
-            db.session.commit()
-            return resort_event.to_dict(), 201
-
-        except Exception as e:
-            db.session.rollback()
-            return {'message': str(e)}, 500
+            except Exception as e:
+                db.session.rollback()
+                return {'message': str(e)}, 500
 
 
 class ResortReview(Resource):
@@ -114,7 +125,7 @@ class UserEvents(Resource):
 class UserBookmarks(Resource):
     def get(self, user_id, resort_id):
         try:
-            bookmarks = Bookmark.query.filter_by(user_id=user_id, resort_id=resort_id).all()
+            bookmarks = Bookmark.query.filter_by(user_id=user_id).all()
             return [bookmark.to_dict() for bookmark in bookmarks], 200
         except Exception as e:
             return {'message': str(e)}, 500
@@ -124,7 +135,9 @@ class UserBookmarks(Resource):
             bookmark = Bookmark(user_id=user_id, resort_id=resort_id)
             db.session.add(bookmark)
             db.session.commit()
-            return bookmark.to_dict(), 201
+            return bookmark.to_dict(
+                rules=('-resort',)
+            ), 201
         except Exception as e:
             db.session.rollback()
             return {'message': str(e)}, 500
@@ -140,11 +153,10 @@ class UserBookmarks(Resource):
             db.session.rollback()
             return {'message': str(e)}, 500
 
-# Get all resorts
-# DONE
+# Get all resorts ✅
 api.add_resource(Resorts, '/resorts')
 
-# Get resort by ID
+# Get resort by ID ✅
 api.add_resource(ResortByID, '/resorts/<int:id>')
 
 # Post an event to a resort
@@ -159,7 +171,7 @@ api.add_resource(UserBookmarks, '/user/<int:user_id>/bookmark/<int:resort_id>')
 # Get / Post / Delete a user event
 api.add_resource(UserEvents, '/user/<int:user_id>/bookmark/<int:resort_id>')
 
-# Get all types of events
+# Get all types of events ✅
 api.add_resource(Events, '/events')
 
 @app.route('/')

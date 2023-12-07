@@ -59,7 +59,7 @@ class Bookmark(db.Model, SerializerMixin):
     
     resort = db.relationship('Resort', back_populates='bookmarks')
     
-    serialze_rules = ('-resort.bookmarks')
+    serialize_only = ('user_id', 'resort_id')
     
     
 class Event(db.Model, SerializerMixin):
@@ -71,7 +71,8 @@ class Event(db.Model, SerializerMixin):
     
     resort_events = db.relationship('ResortEvent', back_populates='event')
     
-    serialization_rules = ('-resort_events',)
+    # serialization_rules = ('-resort_events',)
+    serialize_only = ('id', 'name', 'description')
     
     @validates('name')
     def validate_name(self, key, name):
@@ -90,14 +91,14 @@ class ResortEvent(db.Model, SerializerMixin):
     __tablename__ = 'resort_events'
     
     id = db.Column(db.Integer, primary_key=True)
-    time = db.Column(db.Integer)
+    time = db.Column(db.DateTime)
     resort_id = db.Column(db.Integer, db.ForeignKey('resorts.id'))
     event_id = db.Column(db.Integer, db.ForeignKey('events.id'))
 
     resort = db.relationship('Resort', back_populates='events')
     event = db.relationship('Event', back_populates='resort_events')
     
-    serialize_rules = ('-resort.events',)
+    serialize_only=('id', 'time', 'resort_id', 'event_id', 'event')
     
     
 class UserEvent(db.Model, SerializerMixin):

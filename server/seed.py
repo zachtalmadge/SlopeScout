@@ -8,12 +8,16 @@ from faker import Faker
 
 # Local imports
 from app import app, db
-from models import User
-from models import Event
-from models import ResortEvent
-from models import Resort
-from models import Review
-from models import UserEvent
+from models import (
+    Resort, 
+    Event, 
+    User, 
+    ResortEvent, 
+    UserEvent, 
+    Bookmark, 
+    Review
+)
+
 
 def create_users():
     for _ in range(20):
