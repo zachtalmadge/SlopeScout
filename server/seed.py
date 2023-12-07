@@ -163,8 +163,8 @@ def create_reviews():
         review = Review(
             text=fake.text(),
             rating=randint(3, 5),
-            user_id=rc(users).id if users else None,
-            resort_id=rc(resorts).id if resorts else None
+            user_id=rc(users).id ,
+            resort_id=rc(resorts).id
         )
         db.session.add(review)
     db.session.commit()

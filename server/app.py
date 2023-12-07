@@ -61,7 +61,8 @@ class ResortEvents(Resource):
 class ResortReview(Resource):
     def post(self, resort_id):
         data = request.get_json()
-        review = Review(text=data['text'], rating=int(data['rating']), resort_id=resort_id)
+        print(data)
+        review = Review(text=data['text'], rating=int(data['rating']), resort_id=resort_id, user_id=1)
         try:
             db.session.add(review)
             db.session.commit()
@@ -69,15 +70,20 @@ class ResortReview(Resource):
                 rules=('text', 'rating', 'resort_id')
                 ), 201
         except Exception as e:
+            db.session.rollback()
             return {"error": str(e)}, 404
 
     def delete(self, resort_id):
         data = request.get_json()
         review_id = data.get('review_id')
         if review:= Review.query.filter_by(id=review_id, resort_id=resort_id).first():
-            db.session.delete(review)
-            db.session.commit()
-            return {'message': 'Review deleted'}, 200
+            try:
+                db.session.delete(review)
+                db.session.commit()
+                return {'message': 'Review deleted'}, 200
+            except Exception as e:
+                db.session.rollback()
+                return {"error": str(e)}, 404
         return {'message': 'Review not found'}, 404
 
     def put(self, resort_id):
@@ -163,7 +169,7 @@ api.add_resource(ResortEvents, '/resort/<int:resort_id>/event/<int:event_id>')
 
 # Post / Delete / Put a review for a resort 
 # GETTING THIS ERROR "TypeError: delete() got an unexpected keyword argument 'id'"
-api.add_resource(ResortReview, '/resort/<int:id>/review')
+api.add_resource(ResortReview, '/resort/<int:resort_id>/review')
 
 # Get / Post / Delete a user bookmark ✅✅✅
 api.add_resource(UserBookmarks, '/user/<int:user_id>/bookmark/<int:resort_id>')
