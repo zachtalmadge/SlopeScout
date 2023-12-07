@@ -1,5 +1,5 @@
-import React from 'react';
-import { Container, Menu, Input } from 'semantic-ui-react';
+import React, { useState } from 'react';
+import { Container, Menu, Input, Checkbox } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -8,6 +8,8 @@ import {
   faCalendarAlt,
   faBookmark,
   faCalendarCheck,
+  faMoon,
+  faSun,
 } from '@fortawesome/free-solid-svg-icons';
 
 const iconStyle = {
@@ -15,6 +17,13 @@ const iconStyle = {
 };
 
 const Navbar = () => {
+  const [darkMode, setDarkMode] = useState(false);
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    // Add logic to toggle dark/light mode here
+  };
+
   return (
     <Menu style={{ marginBottom: "0px" }}>
       <Container>
@@ -36,6 +45,14 @@ const Navbar = () => {
           </Menu.Item>
           <Menu.Item>
             <Input icon='search' placeholder='Search...' />
+          </Menu.Item>
+          <Menu.Item>
+            <Checkbox
+              toggle
+              label={darkMode ? 'Dark Mode' : 'Light Mode'}
+              checked={darkMode}
+              onChange={toggleDarkMode}
+            />
           </Menu.Item>
         </Menu.Menu>
       </Container>
