@@ -152,7 +152,18 @@ def create_resort_events():
     db.session.commit()
 
 def create_reviews():
-    pass
+    users = User.query.all()
+    resorts = Resort.query.all()
+
+    for _ in range(10):
+        review = Review(
+            text=fake.text(),
+            rating=randint(1, 5),
+            user_id=rc(users).id if users else None,
+            resort_id=rc(resorts).id if resorts else None
+        )
+        db.session.add(review)
+    db.session.commit()
 
 if __name__ == '__main__':
     fake = Faker()
@@ -164,3 +175,21 @@ if __name__ == '__main__':
         Review.query.delete()
         User.query.delete()
         UserEvent.query.delete()
+        db.session.commit()
+        
+        create_users()
+        print('Creating users!')
+        
+        create_events()
+        print('creating events!')
+        
+        create_resorts()
+        print('creating resorts!')
+        
+        create_resort_events()
+        print('creating resort events!')
+        
+        create_reviews()
+        print('creating reviews!')
+        
+        print('done seeding!')
