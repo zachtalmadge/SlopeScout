@@ -12,7 +12,9 @@ class Resorts(Resource):
         try:
             resorts = Resort.query.all()
             print(resorts)
-            return [resort.to_dict() for resort in resorts], 200
+            return [resort.to_dict(
+                    rules=('-events', '-reviews', '-bookmarks')
+                ) for resort in resorts], 200
         except Exception as e:
             print(resorts)
             return {"error": str(e)}, 404
@@ -137,6 +139,7 @@ class UserBookmarks(Resource):
             return {'message': str(e)}, 500
 
 # Get all resorts
+# DONE
 api.add_resource(Resorts, '/resorts')
 
 # Get resort by ID

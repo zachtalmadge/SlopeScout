@@ -158,7 +158,7 @@ def create_reviews():
     for _ in range(10):
         review = Review(
             text=fake.text(),
-            rating=randint(1, 5),
+            rating=randint(3, 5),
             user_id=rc(users).id if users else None,
             resort_id=rc(resorts).id if resorts else None
         )

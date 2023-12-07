@@ -28,14 +28,9 @@ class Resort(db.Model, SerializerMixin):
     reviews = db.relationship('Review', back_populates='resort', cascade='all, delete-orphan')
     bookmarks = db.relationship('Bookmark', back_populates='resort', cascade='all, delete-orphan')
     
-    serialize_rules = ('-events.resort', '-reviews.resort', '-bookmarks.resort')
+    # serialize_rules = ('-events.resort', '-reviews.resort', '-bookmarks.resort')
+    # serialize_only = ('',)
     
-    def __repr__(self):
-        events_repr = [f"Event(id={event.id}, name='{event.name}')" for event in self.events]
-        reviews_repr = [f"Review(id={review.id}, rating={review.rating})" for review in self.reviews]
-        bookmarks_repr = [f"Bookmark(user_id={bookmark.user_id}, resort_id={bookmark.resort_id})" for bookmark in self.bookmarks]
-
-        return f"<Resort({{'id': {self.id}, 'name': '{self.name}', 'city': '{self.city}', 'state': '{self.state}', 'description': '{self.description}', 'events': {events_repr}, 'reviews': {reviews_repr}, 'bookmarks': {bookmarks_repr}}})>"
     
     @validates('name')
     def validate_name(self, key, name):
