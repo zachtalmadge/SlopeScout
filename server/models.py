@@ -30,13 +30,20 @@ class Resort(db.Model, SerializerMixin):
     
     serialize_rules = ('-events.resort', '-reviews.resort', '-bookmarks.resort')
     
+    def __repr__(self):
+        events_repr = [f"Event(id={event.id}, name='{event.name}')" for event in self.events]
+        reviews_repr = [f"Review(id={review.id}, rating={review.rating})" for review in self.reviews]
+        bookmarks_repr = [f"Bookmark(user_id={bookmark.user_id}, resort_id={bookmark.resort_id})" for bookmark in self.bookmarks]
+
+        return f"<Resort({{'id': {self.id}, 'name': '{self.name}', 'city': '{self.city}', 'state': '{self.state}', 'description': '{self.description}', 'events': {events_repr}, 'reviews': {reviews_repr}, 'bookmarks': {bookmarks_repr}}})>"
+    
     @validates('name')
     def validate_name(self, key, name):
         if not name:
             raise ValueError("Name cannot be empty.")
         return name
 
-    @validates('city')
+    @validates('city') 
     def validate_city(self, key, city):
         if not city:
             raise ValueError("City cannot be empty.")
@@ -91,10 +98,9 @@ class ResortEvent(db.Model, SerializerMixin):
     event_id = db.Column(db.Integer, db.ForeignKey('events.id'))
 
     resort = db.relationship('Resort', back_populates='events')
-    event_id = db.Column(db.Integer, db.ForeignKey('events.id'))
     event = db.relationship('Event', back_populates='resort_events')
     
-    serialize_rules = ('-resort.events')
+    serialize_rules = ('-resort.events',)
     
     
 class UserEvent(db.Model, SerializerMixin):

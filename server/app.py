@@ -11,8 +11,10 @@ class Resorts(Resource):
     def get(self):
         try:
             resorts = Resort.query.all()
+            print(resorts)
             return [resort.to_dict() for resort in resorts], 200
         except Exception as e:
+            print(resorts)
             return {"error": str(e)}, 404
 
 
@@ -161,6 +163,5 @@ def index():
 
 
 if __name__ == '__main__':
-    # app.run(port=5555, debug=True)
-    print (Resorts)
+    app.run(port=5555, debug=True)
 
