@@ -3,7 +3,7 @@ from flask import request
 from flask_restful import Resource
 from config import app, db, api
 
-from models import Resort, Event, User, ResortEvent, UserEvent, Bookmark
+from models import Resort, Event, User, ResortEvent, UserEvent, Bookmark, Review
 
 
 # Routes
@@ -17,12 +17,16 @@ class Resorts(Resource):
             print(resorts)
             return {"error": str(e)}, 404
 
+# Get all resorts
+api.add_resource(Resorts, '/resorts')
 
 class Events(Resource):
     def get(self):
         events = Event.query.all()
         return [event.to_dict() for event in events], 200
 
+# Get all types of events
+api.add_resource(Events, '/events')
 
 class ResortByID(Resource):
     def get(self, id):
@@ -30,6 +34,8 @@ class ResortByID(Resource):
             return resort.serialize()
         return {'message': 'Resort not found'}, 404
 
+# Get resort by ID
+api.add_resource(ResortByID, '/resorts/<int:id>')
 
 class ResortEvents(Resource):
     def post(self, resort_id, event_id):
@@ -46,6 +52,8 @@ class ResortEvents(Resource):
             db.session.rollback()
             return {'message': str(e)}, 500
 
+# Get resort by ID
+api.add_resource(ResortByID, '/resorts/<int:id>')
 
 class ResortReview(Resource):
     def post(self, resort_id):
@@ -76,6 +84,8 @@ class ResortReview(Resource):
             return review.serialize(), 200
         return {'message': 'Review not found'}, 404
 
+# Post / Delete / Put a review for a resort
+api.add_resource(ResortReview, '/resort/<int:id>/review')
 
 class UserEvents(Resource):
     def get(self, user_id, resort_event_id):
@@ -105,6 +115,9 @@ class UserEvents(Resource):
         except Exception as e:
             db.session.rollback()
             return {'message': str(e)}, 500
+
+# Get / Post / Delete a user event
+api.add_resource(UserEvents, '/user/<int:user_id>/bookmark/<int:resort_id>')
 
 
 class UserBookmarks(Resource):
@@ -136,26 +149,9 @@ class UserBookmarks(Resource):
             db.session.rollback()
             return {'message': str(e)}, 500
 
-# Get all resorts
-api.add_resource(Resorts, '/resorts')
-
-# Get resort by ID
-api.add_resource(ResortByID, '/resorts/<int:id>')
-
-# Post an event to a resort
-api.add_resource(ResortEvents, '/resort/<int:resort_id>/event/<int:event_id>')
-
-# Post / Delete / Put a review for a resort
-api.add_resource(ResortReview, '/resort/<int:id>/review')
-
 # Get / Post / Delete a user bookmark
 api.add_resource(UserBookmarks, '/user/<int:user_id>/bookmark/<int:resort_id>')
 
-# Get / Post / Delete a user event
-api.add_resource(UserEvents, '/user/<int:user_id>/bookmark/<int:resort_id>')
-
-# Get all types of events
-api.add_resource(Events, '/events')
 
 @app.route('/')
 def index():
