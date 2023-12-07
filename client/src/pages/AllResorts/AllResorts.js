@@ -1,10 +1,10 @@
 import ModelMasthead from "../../components/ModelMasthead/ModelMasthead";
 
-const Events = () => {
+const AllResorts = () => {
 
     return (
-        <ModelMasthead text="Events" />
+        <ModelMasthead text="All Resorts"/>
     )
 }
 
-export default Events
+export default AllResorts

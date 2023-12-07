@@ -1,5 +1,10 @@
 import App from './app'
 import Home from './pages/Home'
+import AllResorts from './pages/AllResorts/AllResorts'
+import Bookmarks from './pages/Bookmarks/Bookmarks'
+import Events from './pages/Events/Events'
+import MyEvents from './pages/MyEvents/MyEvents'
+import SearchPage from './pages/SearchPage/SearchPage'
 
 const routes = [
     {
@@ -11,19 +16,30 @@ const routes = [
                 element: <Home />
             },
             {
-                path: '/allResorts'
-            },
-            {
-                path: '/events'
+                path: '/allResorts',
+                element: <AllResorts />
             },
             {
                 path: '/resort/:id'
             },
             {
+                path: '/events',
+                element: <Events />
+            },
+            {
+                path: '/bookmarks',
+                element: <Bookmarks />
+            },
+            {
                 path: '/createEvent'
             },
             {
-                path: '/search'
+                path: '/myEvents',
+                element: <MyEvents />
+            },
+            {
+                path: '/search',
+                element: <SearchPage />
             }
         ]
     }
