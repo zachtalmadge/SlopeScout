@@ -114,6 +114,15 @@ class UserEvents(Resource):
 
     def post(self, user_id, resort_event_id):
         try:
+            # Check if a UserEvent with the same user_id and event_id exists
+            existing_user_event = UserEvent.query.filter_by(
+                user_id=user_id, event_id=resort_event_id).first()
+
+            if existing_user_event:
+                # If a UserEvent already exists, return an error response
+                return {'message': 'User has already registered for this event'}, 400
+
+            # If no UserEvent exists, create a new one
             user_event = UserEvent(user_id=user_id, event_id=resort_event_id)
             db.session.add(user_event)
             db.session.commit()

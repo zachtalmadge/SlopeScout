@@ -8,9 +8,26 @@ const ResortDetailsPanes = ({ reviews, events }) => {
 
     const URL = 'http://127.0.0.1:5555/user/1/event'
 
-    const handleRegister = (eventId) => {
-        // Add logic to handle event registration here
-        console.log(`Registered for event with ID: ${eventId}`);
+    const handleRegister = async (eventId) => {
+        try {
+            const response = await fetch(`${URL}/${eventId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                // If the response is successful, alert the user
+                alert('Successfully registered for the event!');
+            } else {
+                // Handle non-successful responses here
+                alert('Failed to register for the event.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while trying to register for the event.');
+        }
     };
 
     const reviewPanes = {
