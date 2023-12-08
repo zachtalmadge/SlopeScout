@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'
 import { Grid, Input, Button, Segment, Container, Pagination } from 'semantic-ui-react';
 import ModelMasthead from '../../components/ModelMasthead';
 import ResortCard from '../../components/ResortCard';
@@ -9,6 +9,8 @@ const URL = 'http://127.0.0.1:5555/resorts';
 const AllResorts = () => {
     // State to store the fetched data
     const { data } = useFetch(URL);
+
+    console.log(data)
 
     // State to store the filtered data
     const [filteredData, setFilteredData] = useState([]);
@@ -30,15 +32,19 @@ const AllResorts = () => {
 
     // Function to apply name and city filters
     const applyFilters = () => {
-        if (data) {
-            const filtered = data.filter(
-                (resort) =>
-                    resort.name.toLowerCase().includes(nameFilter.toLowerCase()) &&
-                    resort.city.toLowerCase().includes(cityFilter.toLowerCase())
-            );
-            setFilteredData(filtered);
-            setCurrentPage(1); // Reset to first page after applying filters
+        if (!data) {
+            setFilteredData([]); // Set filteredData to an empty array when data is null
+            setCurrentPage(1); // Reset to first page when data is null
+            return;
         }
+
+        const filtered = data.filter(
+            (resort) =>
+                resort.name.toLowerCase().includes(nameFilter.toLowerCase()) &&
+                resort.city.toLowerCase().includes(cityFilter.toLowerCase())
+        );
+        setFilteredData(filtered);
+        setCurrentPage(1); // Reset to first page after applying filters
     };
 
     // Calculate the slice of data to display based on current page

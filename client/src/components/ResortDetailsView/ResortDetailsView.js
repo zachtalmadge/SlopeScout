@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark } from '@fortawesome/free-solid-svg-icons';
 import BookmarkModal from '../BookmarkModal';
 
-const URL = "http://127.0.0.1:5555/user/1/bookmark/"
+const URL = "http://127.0.0.1:5555/user/1/bookmark"
 
 const ResortDetailsView = ({ resort }) => {
   const { id, name, description, state, city, reviews, events } = resort;

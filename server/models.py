@@ -28,6 +28,9 @@ class Resort(db.Model, SerializerMixin):
     reviews = db.relationship('Review', back_populates='resort', cascade='all, delete-orphan')
     bookmarks = db.relationship('Bookmark', back_populates='resort', cascade='all, delete-orphan')
     
+    serialize_only = ('id', 'name', 'city', 'state', 'description')
+    
+    
     
     @validates('name')
     def validate_name(self, key, name):
