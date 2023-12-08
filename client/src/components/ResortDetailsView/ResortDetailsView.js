@@ -5,7 +5,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark } from '@fortawesome/free-solid-svg-icons';
 
 const ResortDetailsView = ({ resort }) => {
-  const { name, description, state, city, reviews, events } = resort;
+  const { id, name, description, state, city, reviews, events } = resort;
+
+  const submitBookmark = async (id) => {
+
+    const headers = {"content-type": "application/json"}
+
+    let response = await fetch(`http://127.0.0.1:5555/user/1/bookmark/${id}`, {method: "POST", headers})
+    let bookmark = await response.json()
+    console.log(bookmark)
+  }
 
   return (
     <Container>
@@ -17,8 +26,8 @@ const ResortDetailsView = ({ resort }) => {
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <Icon name="map marker alternate" />
               {city}, {state}
-              <Button icon color="blue" style={{ marginLeft: '10px' }}>
-                <FontAwesomeIcon icon={faBookmark} style={{marginRight: "5px"}} />
+              <Button onClick={() => submitBookmark(id)} icon color="blue" style={{ marginLeft: '10px' }}>
+                <FontAwesomeIcon icon={faBookmark} style={{ marginRight: "5px" }} />
                 Bookmark
               </Button>
             </div>

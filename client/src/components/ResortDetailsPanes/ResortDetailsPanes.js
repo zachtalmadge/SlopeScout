@@ -26,7 +26,7 @@ const ResortDetailsPanes = ({ reviews, events }) => {
                         </Card.Content>
                     </Card>
                 ))}
-                <Button grey style={{ marginBottom: '10px' }}>
+                <Button grey="true" style={{ marginBottom: '10px' }}>
                     Submit a Review
                 </Button>
             </Tab.Pane>

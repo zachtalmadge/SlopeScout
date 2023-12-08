@@ -128,20 +128,31 @@ class UserEvents(Resource):
 
 
 class UserBookmarks(Resource):
+    
+    # route '/user/<int:user_id>/bookmark/<int:resort_id>'
+    # HARD CODING USER_ID TO 1 BEFORE IMPLEMENTING AUTH
+    
+    
     def get(self, user_id, resort_id):
         try:
             bookmarks = Bookmark.query.filter_by(user_id=user_id).all()
-            return [bookmark.to_dict() for bookmark in bookmarks], 200
+            return [bookmark.to_dict(
+                rules=('-resort.events', '-resort.bookmarks', '-resort.reviews',)
+                ) for bookmark in bookmarks], 200
         except Exception as e:
             return {'message': str(e)}, 500
 
     def post(self, user_id, resort_id):
         try:
+            # Check if the bookmark already exists for the user
+            existing_bookmark = Bookmark.query.filter_by(user_id=1, resort_id=resort_id).first()
+            if existing_bookmark:
+                return {'message': 'Bookmark already exists for this user and resort'}, 400
             bookmark = Bookmark(user_id=user_id, resort_id=resort_id)
             db.session.add(bookmark)
             db.session.commit()
             return bookmark.to_dict(
-                rules=('-resort',)
+                rules=('-resort.events', '-resort.bookmarks', '-resort.reviews',)
             ), 201
         except Exception as e:
             db.session.rollback()

@@ -27,7 +27,7 @@ const Navbar = () => {
   return (
     <Menu style={{ marginBottom: "0px" }}>
       <Container>
-        <Menu.Item as={NavLink} to="/" exact>
+        <Menu.Item as={NavLink} to="/">
           <FontAwesomeIcon icon={faHome} style={iconStyle} /> Home
         </Menu.Item>
         <Menu.Item as={NavLink} to="/allResorts">

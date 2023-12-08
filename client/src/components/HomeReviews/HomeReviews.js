@@ -37,7 +37,7 @@ const HomeReviews = () => {
       <Header as="h2" textAlign="center">
         What Our Users Say
       </Header>
-      <Grid columns={2} stackable centered equal>
+      <Grid columns={2} stackable centered>
         {reviews.map((review, index) => (
           <Grid.Column key={index}>
             <Card fluid>

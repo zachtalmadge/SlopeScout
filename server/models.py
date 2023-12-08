@@ -56,7 +56,7 @@ class Bookmark(db.Model, SerializerMixin):
     
     resort = db.relationship('Resort', back_populates='bookmarks')
     
-    serialize_only = ('user_id', 'resort_id')
+    serialize_only = ('user_id', 'resort_id', 'resort', '-resort.events', '-resort.reviews', '-resorts.bookmarks')
     
     
 class Event(db.Model, SerializerMixin):
