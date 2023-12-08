@@ -1,22 +1,40 @@
-import React from 'react';
+import { useState } from 'react';
 import { Container, Header, Icon, Image, Button, Grid, Tab, Divider } from 'semantic-ui-react';
 import ResortDetailsPanes from '../ResortDetailsPanes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark } from '@fortawesome/free-solid-svg-icons';
+import BookmarkModal from '../BookmarkModal';
+
+const URL = "http://127.0.0.1:5555/user/1/bookmark/"
 
 const ResortDetailsView = ({ resort }) => {
   const { id, name, description, state, city, reviews, events } = resort;
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
 
   const submitBookmark = async (id) => {
+    try {
+        const headers = {"content-type": "application/json"};
+        let response = await fetch(`${URL}/${id}`, {method: "POST", headers});
 
-    const headers = {"content-type": "application/json"}
-
-    let response = await fetch(`http://127.0.0.1:5555/user/1/bookmark/${id}`, {method: "POST", headers})
-    let bookmark = await response.json()
-    console.log(bookmark)
-  }
+        setModalOpen(true);
+        if (response.status === 400) {
+            setModalMessage('You have already bookmarked this resort.');
+        } else if (response.status === 500) {
+            setModalMessage('An error occurred. Please try again later.');
+        } else if (response.ok) {
+            setModalMessage(`${name} has been successfully bookmarked!`);
+        } else {
+            throw new Error('Unexpected error occurred');
+        }
+    } catch (error) {
+        setModalOpen(true);
+        setModalMessage(error.message);
+    }
+};
 
   return (
+    <>
     <Container>
       <Grid>
         <Grid.Row>
@@ -39,7 +57,14 @@ const ResortDetailsView = ({ resort }) => {
           </Grid.Column>
         </Grid.Row>
       </Grid>
+            <BookmarkModal
+                resortName={name}
+                message={modalMessage}
+                open={modalOpen}
+                onClose={() => setModalOpen(false)}
+            />
     </Container>
+    </>
   );
 };
 
