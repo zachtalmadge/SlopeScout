@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Button } from 'semantic-ui-react';
+import { Card, Button, Image } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarker } from '@fortawesome/free-solid-svg-icons';
@@ -9,6 +9,7 @@ const ResortCard = ({ resort }) => {
 
     return (
         <Card>
+            <Image src="./assets/resort_placeholder.png" alt={name} />
             <Card.Content>
                 <Card.Header>{name}</Card.Header>
                 <Card.Meta>

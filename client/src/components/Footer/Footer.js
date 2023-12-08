@@ -24,21 +24,19 @@ const Footer = () => {
               <Header as="h4" inverted>
                 Coding Bootcamp Logo
               </Header>
-              {/* Add your coding bootcamp logo here */}
               <p>
                 <a href="#">
-                  <FontAwesomeIcon icon={faFacebook} size="2x" style={{ marginRight: '10px' }} />
+                  <FontAwesomeIcon icon={faFacebook} size="3x" style={{ marginRight: '10px' }} />
                 </a>
                 <a href="#">
-                  <FontAwesomeIcon icon={faTwitter} size="2x" style={{ marginRight: '10px' }} />
+                  <FontAwesomeIcon icon={faTwitter} size="3x" style={{ marginRight: '10px' }} />
                 </a>
                 <a href="#">
-                  <FontAwesomeIcon icon={faInstagram} size="2x" style={{ marginRight: '10px' }} />
+                  <FontAwesomeIcon icon={faInstagram} size="3x" style={{ marginRight: '10px' }} />
                 </a>
                 <a href="#">
-                  <FontAwesomeIcon icon={faLinkedinIn} size="2x" style={{ marginRight: '10px' }} />
+                  <FontAwesomeIcon icon={faLinkedinIn} size="3x" style={{ marginRight: '10px' }} />
                 </a>
-                {/* Add more social media icons and links as needed */}
               </p>
             </Grid.Column>
           </Grid.Row>

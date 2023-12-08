@@ -1,16 +1,21 @@
 import React from 'react';
-import { Tab, Button, Card, Icon } from 'semantic-ui-react';
-import renderRatingStars from '../../util/renderRatingStars'
+import { Tab, Button, Card } from 'semantic-ui-react';
+import renderRatingStars from '../../util/renderRatingStars';
+import DateTimeDisplay from '../DateTimeDisplay';
+import sortByDate from '../../util/sortByDate';
 
 const ResortDetailsPanes = ({ reviews, events }) => {
+
+
+    const handleRegister = (eventId) => {
+        // Add logic to handle event registration here
+        console.log(`Registered for event with ID: ${eventId}`);
+    };
 
     const reviewPanes = {
         menuItem: 'Reviews',
         render: () => (
             <Tab.Pane>
-                <Button primary style={{ marginBottom: '10px' }}>
-                    Submit a Review
-                </Button>
                 {reviews && reviews.map((review, index) => (
                     <Card key={index}>
                         <Card.Content>
@@ -21,6 +26,9 @@ const ResortDetailsPanes = ({ reviews, events }) => {
                         </Card.Content>
                     </Card>
                 ))}
+                <Button grey style={{ marginBottom: '10px' }}>
+                    Submit a Review
+                </Button>
             </Tab.Pane>
         ),
     };
@@ -29,14 +37,17 @@ const ResortDetailsPanes = ({ reviews, events }) => {
         menuItem: 'Events',
         render: () => (
             <Tab.Pane>
-                {events && events.map((event, index) => (
+                {events && sortByDate(events).map((event, index) => (
                     <Card key={index}>
                         <Card.Content>
                             <Card.Header>{event.event.name}</Card.Header>
                             <Card.Description>{event.event.description}</Card.Description>
                         </Card.Content>
                         <Card.Content extra>
-                            <p>Time: {event.time}</p>
+                            <DateTimeDisplay dateTimeString={event.time} />
+                            <Button primary onClick={() => handleRegister(event.event.id)}>
+                                Register
+                            </Button>
                         </Card.Content>
                     </Card>
                 ))}
@@ -46,9 +57,7 @@ const ResortDetailsPanes = ({ reviews, events }) => {
 
     const panes = [reviewPanes, eventPanes];
 
-    return (
-        <Tab panes={panes} />
-    );
+    return <Tab panes={panes} />;
 };
 
 export default ResortDetailsPanes;
