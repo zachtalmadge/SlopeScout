@@ -6,6 +6,7 @@ import sortByDate from '../../util/sortByDate';
 
 const ResortDetailsPanes = ({ reviews, events }) => {
 
+    const URL = 'http://127.0.0.1:5555/user/1/event'
 
     const handleRegister = (eventId) => {
         // Add logic to handle event registration here

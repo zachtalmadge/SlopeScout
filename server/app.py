@@ -102,6 +102,9 @@ class ResortReview(Resource):
 
 
 class UserEvents(Resource):
+    
+    # '/user/<int:user_id>/event/<int:resort_event_id>'
+    
     def get(self, user_id, resort_event_id):
         try:
             user_events = UserEvent.query.filter_by(user_id=user_id).all()
