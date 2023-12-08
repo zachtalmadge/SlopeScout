@@ -10,7 +10,6 @@ const AllResorts = () => {
     // State to store the fetched data
     const { data } = useFetch(URL);
 
-    console.log(data)
 
     // State to store the filtered data
     const [filteredData, setFilteredData] = useState([]);

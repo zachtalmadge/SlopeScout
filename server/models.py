@@ -28,7 +28,7 @@ class Resort(db.Model, SerializerMixin):
     reviews = db.relationship('Review', back_populates='resort', cascade='all, delete-orphan')
     bookmarks = db.relationship('Bookmark', back_populates='resort', cascade='all, delete-orphan')
     
-    serialize_only = ('id', 'name', 'city', 'state', 'description')
+    serialize_only = ('id', 'name', 'city', 'state', 'description', '-events.resort', '-reviews.resort', '-bookmarks.resort')
     
     
     
