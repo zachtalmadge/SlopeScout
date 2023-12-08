@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Menu, Input, Checkbox } from 'semantic-ui-react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHome,
@@ -18,6 +18,14 @@ const iconStyle = {
 
 const Navbar = () => {
   const [darkMode, setDarkMode] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      navigate(`/search?query=${encodeURIComponent(searchQuery)}`);
+    }
+  };
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
@@ -44,7 +52,13 @@ const Navbar = () => {
             <FontAwesomeIcon icon={faCalendarCheck} style={iconStyle} /> My Events
           </Menu.Item>
           <Menu.Item>
-            <Input icon='search' placeholder='Search...' />
+            <Input
+              icon='search'
+              placeholder='Search...'
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+            />
           </Menu.Item>
           <Menu.Item>
             <Checkbox
