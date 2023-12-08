@@ -8,8 +8,6 @@ import {
   faCalendarAlt,
   faBookmark,
   faCalendarCheck,
-  faMoon,
-  faSun,
 } from '@fortawesome/free-solid-svg-icons';
 
 const iconStyle = {

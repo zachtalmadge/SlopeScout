@@ -12,6 +12,8 @@ const ResortDetailsView = ({ resort }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
 
+  console.log(events)
+
   const submitBookmark = async (id) => {
     try {
         const headers = {"content-type": "application/json"};
