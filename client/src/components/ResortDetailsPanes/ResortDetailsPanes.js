@@ -19,6 +19,9 @@ const ResortDetailsPanes = ({ reviews, events }) => {
 
             if (response.ok) {
                 // If the response is successful, alert the user
+                let data = await response.json()
+
+                console.log(data)
                 alert('Successfully registered for the event!');
             } else {
                 // Handle non-successful responses here

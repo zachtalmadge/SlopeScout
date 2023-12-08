@@ -105,10 +105,23 @@ class UserEvents(Resource):
     
     # '/user/<int:user_id>/event/<int:resort_event_id>'
     
-    def get(self, user_id, resort_event_id):
+    def get(self, user_id, resort_event_id=None):
         try:
-            user_events = UserEvent.query.filter_by(user_id=user_id).all()
-            return [user_event.to_dict() for user_event in user_events], 200
+            user_events_query = UserEvent.query.filter_by(user_id=user_id)
+            user_events = user_events_query.all()
+            result = []
+            for user_event in user_events:
+                # Fetch the associated ResortEvent
+                resort_event = ResortEvent.query.get(user_event.event_id)
+                if resort_event:
+                    # Fetch the associated Resort
+                    resort = Resort.query.get(resort_event.resort_id)
+                    # Serialize the ResortEvent and Resort, and include them in the response
+                    event_data = resort_event.to_dict()
+                    event_data['resort'] = resort.to_dict() if resort else None
+                    result.append(event_data)
+            
+            return result, 200
         except Exception as e:
             return {'message': str(e)}, 500
 
