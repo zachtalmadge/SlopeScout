@@ -164,7 +164,7 @@ class UserBookmarks(Resource):
 
     def delete(self, user_id, resort_id):
         try:
-            if bookmark := Bookmark.query.filter_by(user_id=user_id, resort_id=resort_id).first():
+            if bookmark := Bookmark.query.filter_by(user_id=1, resort_id=resort_id).first():
                 db.session.delete(bookmark)
                 db.session.commit()
                 return {'message': 'Bookmark deleted'}, 200
