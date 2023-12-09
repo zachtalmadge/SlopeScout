@@ -101,7 +101,6 @@ class ResortReview(Resource):
         return {'message': 'Review not found'}, 404
     
 # Post / Delete / Put a review for a resort 
-# GETTING THIS ERROR "TypeError: delete() got an unexpected keyword argument 'id'"
 api.add_resource(ResortReview, '/resort/<int:resort_id>/review')
 
 
