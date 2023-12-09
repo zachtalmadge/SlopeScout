@@ -12,6 +12,11 @@ class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
     
     id = db.Column(db.Integer, primary_key=True)
+
+    user_events = db.relationship('UserEvent', back_populates="user")
+    
+    events = association_proxy('user_events', 'event')
+    
     
 
 class Resort(db.Model, SerializerMixin):
@@ -27,6 +32,8 @@ class Resort(db.Model, SerializerMixin):
     events = db.relationship('ResortEvent', back_populates='resort', cascade='all, delete-orphan')
     reviews = db.relationship('Review', back_populates='resort', cascade='all, delete-orphan')
     bookmarks = db.relationship('Bookmark', back_populates='resort', cascade='all, delete-orphan')
+    
+    user_events = db.relationship('UserEvent', back_populates="resort")
     
     serialize_only = ('id', 'name', 'city', 'state', 'description', '-events.resort', '-reviews.resort', '-bookmarks.resort')
     
@@ -71,6 +78,9 @@ class Event(db.Model, SerializerMixin):
     
     resort_events = db.relationship('ResortEvent', back_populates='event')
     
+    user_events = db.relationship('UserEvent', back_populates="event")
+    
+    
     serialize_only = ('id', 'name', 'description')
     
     @validates('name')
@@ -105,7 +115,16 @@ class UserEvent(db.Model, SerializerMixin):
     
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    event_id = db.Column(db.Integer, db.ForeignKey('resort_events.id'))
+    event_id = db.Column(db.Integer, db.ForeignKey('events.id'))
+    resort_id = db.Column(db.Integer, db.ForeignKey('resorts.id'))
+    
+    resort = db.relationship('Resort', back_populates='user_events')
+    event = db.relationship('Event', back_populates='user_events')
+    user = db.relationship('User', back_populates='user_events')
+    
+    serialize_only = ('resort', 'event')
+    
+    # build relationship with event
     
     
 class Review(db.Model, SerializerMixin):
