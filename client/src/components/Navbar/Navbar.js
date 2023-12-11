@@ -36,7 +36,7 @@ const Navbar = () => {
   };
 
   const navbarStyle = {
-    backgroundColor: theme === 'light' ? 'white' : 'black',
+    backgroundColor: theme === 'light' ? 'white' : '#1B1C1D',
   };
 
   return (
