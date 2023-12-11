@@ -6,8 +6,6 @@ import sortByDate from '../../util/sortByDate';
 
 const ResortDetailsPanes = ({ reviews, events }) => {
 
-    console.log(events)
-
     const URL = 'http://127.0.0.1:5555/user/1/event'
 
     const handleRegister = async (eventId) => {
@@ -65,7 +63,7 @@ const ResortDetailsPanes = ({ reviews, events }) => {
                         </Card.Content>
                         <Card.Content extra>
                             <DateTimeDisplay dateTimeString={event.time} />
-                            <Button primary onClick={() => handleRegister(event.event_id)}>
+                            <Button primary onClick={() => handleRegister(event.event.id)}>
                                 Register
                             </Button>
                         </Card.Content>
