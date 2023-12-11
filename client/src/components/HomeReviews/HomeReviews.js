@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Segment, Header, Rating, Grid, Card } from 'semantic-ui-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { useTheme } from '../../contexts/ThemeProvider';
 
 const reviews = [
   {
@@ -31,16 +32,29 @@ const reviews = [
 ];
 
 const HomeReviews = () => {
+
+  const { theme } = useTheme();
+
+  const segmentStyle = {
+    backgroundColor: theme === 'light' ? 'white' : '#1B1C1D', // Example colors
+    marginTop: 0,
+    marginBottom: 0
+  };
+  
+  const cardStyle = {
+    backgroundColor: theme === 'light' ? 'white' : 'grey', // Adjust for cards
+  };
+
   return (
-    <Segment>
-        <Container>
-      <Header as="h2" textAlign="center">
+    <Segment style={segmentStyle}>
+    <Container>
+      <Header color={theme === 'light' ? '' : 'blue'} as="h2" textAlign="center">
         What Our Users Say
       </Header>
       <Grid columns={2} stackable centered>
         {reviews.map((review, index) => (
           <Grid.Column key={index}>
-            <Card fluid>
+            <Card fluid style={cardStyle}>
               <Card.Content>
                 <Card.Header>
                   <FontAwesomeIcon icon={faUserCircle} style={{ marginRight: '5px' }} />
