@@ -11,6 +11,7 @@ import {
   faMoon,
   faSun,
 } from '@fortawesome/free-solid-svg-icons';
+import { useTheme } from '../../contexts/ThemeProvider';
 
 const iconStyle = {
   marginRight: '5px', // Adjust the spacing as needed
@@ -27,9 +28,11 @@ const Navbar = () => {
     }
   };
 
+  const { theme, toggleTheme } = useTheme();
+
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
-    // Add logic to toggle dark/light mode here
+    toggleTheme()
   };
 
   return (
