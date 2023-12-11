@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Menu, Input, Checkbox } from 'semantic-ui-react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHome,
@@ -35,27 +35,32 @@ const Navbar = () => {
     toggleTheme()
   };
 
+  const navbarStyle = {
+    backgroundColor: theme === 'light' ? 'white' : 'black',
+  };
+
   return (
-    <Menu style={{ marginBottom: "0px" }}>
+    <Menu id="nav" style={{ ...navbarStyle,  marginBottom: "0px", color:"green" }}>
       <Container>
-        <Menu.Item as={NavLink} to="/">
+        <Menu.Item color={theme === "light" ? "" : "blue"} as={Link} active to="/">
           <FontAwesomeIcon icon={faHome} style={iconStyle} /> Home
         </Menu.Item>
-        <Menu.Item as={NavLink} to="/allResorts">
+        <Menu.Item color={theme === "light" ? "" : "blue"} as={Link} active to="/allResorts">
           <FontAwesomeIcon icon={faMountain} style={iconStyle} /> Resorts
         </Menu.Item>
-        <Menu.Item as={NavLink} to="/events">
+        <Menu.Item color={theme === "light" ? "" : "blue"} as={Link} active to="/events">
           <FontAwesomeIcon icon={faCalendarAlt} style={iconStyle} /> Events
         </Menu.Item>
         <Menu.Menu position="right">
-          <Menu.Item as={NavLink} to="/bookmarks">
+          <Menu.Item color={theme === "light" ? "" : "blue"} as={Link} active to="/bookmarks">
             <FontAwesomeIcon icon={faBookmark} style={iconStyle} /> Bookmarks
           </Menu.Item>
-          <Menu.Item as={NavLink} to="/myEvents">
+          <Menu.Item color={theme === "light" ? "" : "blue"} as={Link} active to="/myEvents">
             <FontAwesomeIcon icon={faCalendarCheck} style={iconStyle} /> My Events
           </Menu.Item>
           <Menu.Item>
             <Input
+            color={theme === "light" ? "" : "blue"}
               icon='search'
               placeholder='Search...'
               value={searchQuery}
@@ -65,6 +70,7 @@ const Navbar = () => {
           </Menu.Item>
           <Menu.Item>
             <Checkbox
+            color={theme === "light" ? "" : "blue"}
               toggle
               label={darkMode ? 'Dark Mode' : 'Light Mode'}
               checked={darkMode}
