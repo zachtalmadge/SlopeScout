@@ -75,7 +75,7 @@ class ResortReview(Resource):
                 ), 201
         except Exception as e:
             db.session.rollback()
-            return {"error": str(e)}, 404
+            return {"error": str(e)}, 422
 
     def delete(self, resort_id):
         data = request.get_json()
@@ -99,29 +99,22 @@ class ResortReview(Resource):
             db.session.commit()
             return review.to_dict(), 200
         return {'message': 'Review not found'}, 404
+    
+# Post / Delete / Put a review for a resort 
+# GETTING THIS ERROR "TypeError: delete() got an unexpected keyword argument 'id'"
+api.add_resource(ResortReview, '/resort/<int:resort_id>/review')
 
 
 class UserEvents(Resource):
     
     # '/user/<int:user_id>/event/<int:resort_event_id>'
     
-    def get(self, user_id, resort_event_id):
+    def get(self, user_id, resort_event_id=None):
         try:
-            user_events_query = UserEvent.query.filter_by(user_id=user_id)
-            user_events = user_events_query.all()
-            result = []
-            for user_event in user_events:
-                # Fetch the associated ResortEvent
-                resort_event = ResortEvent.query.get(user_event.event_id)
-                if resort_event:
-                    # Fetch the associated Resort
-                    resort = Resort.query.get(resort_event.resort_id)
-                    # Serialize the ResortEvent and Resort, and include them in the response
-                    event_data = resort_event.to_dict()
-                    event_data['resort'] = resort.to_dict() if resort else None
-                    result.append(event_data)
+            if user := db.session.get(User, user_id):
+                print(user)
+                return [event.to_dict() for event in user.events], 200
             
-            return result, 200
         except Exception as e:
             return {'message': str(e)}, 500
 
@@ -207,9 +200,7 @@ api.add_resource(ResortByID, '/resorts/<int:id>')
 # Post an event to a resort ✅✅✅
 api.add_resource(ResortEvents, '/resort/<int:resort_id>/event/<int:event_id>')
 
-# Post / Delete / Put a review for a resort 
-# GETTING THIS ERROR "TypeError: delete() got an unexpected keyword argument 'id'"
-api.add_resource(ResortReview, '/resort/<int:resort_id>/review')
+
 
 # Get / Post / Delete a user bookmark ✅✅✅
 api.add_resource(UserBookmarks, '/user/<int:user_id>/bookmark/<int:resort_id>')
@@ -227,4 +218,3 @@ def index():
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
-
