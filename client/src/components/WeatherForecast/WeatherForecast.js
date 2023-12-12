@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { Card, List, Icon } from 'semantic-ui-react';
+import { Grid, Card, Segment } from 'semantic-ui-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSun, faCloudRain, faSnowflake, faSmog } from '@fortawesome/free-solid-svg-icons';
+import { useTheme } from '../../contexts/ThemeProvider'; // Import useTheme
 
 const WeatherForecast = ({ resort }) => {
-
   const [forecast, setForecast] = useState(null);
+  const { theme } = useTheme(); // Corrected to destructure theme
 
   useEffect(() => {
     const fetchWeather = async () => {
-      const apiKey = '0043088228814a3dbf9182754231212'; // Your API key
+      const apiKey = '0043088228814a3dbf9182754231212';
       const url = `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${resort}&days=7&aqi=no&alerts=no`;
 
       try {
         const response = await fetch(url);
         const data = await response.json();
-        setForecast(data.forecast.forecastday);
+        setForecast(data.forecast.forecastday.slice(0, 3)); // Slice to get only 3 days
       } catch (error) {
         console.error('Failed to fetch weather data:', error);
       }
@@ -23,6 +24,16 @@ const WeatherForecast = ({ resort }) => {
 
     fetchWeather();
   }, [resort]);
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { weekday: 'short' });
+  };
+
+  const segmentStyle = {
+    backgroundColor: theme === 'light' ? 'white' : '#1B1C1D',
+    color: theme === 'light' ? 'black' : 'rgb(33,133,208)',
+  };
 
   const getWeatherIcon = (condition) => {
     switch (condition) {
@@ -44,28 +55,28 @@ const WeatherForecast = ({ resort }) => {
   }
 
   return (
-    <Card>
-      <Card.Content>
-        <Card.Header>7-Day Weather Forecast for {resort}</Card.Header>
-        <List>
-          {forecast.map((day, index) => (
-            <List.Item key={index}>
-              <FontAwesomeIcon icon={getWeatherIcon(day.day.condition.text)} />
-              <List.Content>
-                <List.Header>{day.date}</List.Header>
-                <List.Description>
+    <Segment style={segmentStyle}>
+      <Grid columns={forecast.length} divided>
+        {forecast.map((day, index) => (
+          <Grid.Column key={index}>
+            <Card>
+              <Card.Content>
+                <FontAwesomeIcon icon={getWeatherIcon(day.day.condition.text)} size="2x" />
+                <Card.Header>{formatDate(day.date)}</Card.Header>
+                <Card.Meta>
                   High: {day.day.maxtemp_c}°C, Low: {day.day.mintemp_c}°C
-                  <br />
+                </Card.Meta>
+                <Card.Description>
                   Chance of rain: {day.day.daily_chance_of_rain}%
                   <br />
-                  Conditions: {day.day.condition.text}
-                </List.Description>
-              </List.Content>
-            </List.Item>
-          ))}
-        </List>
-      </Card.Content>
-    </Card>
+                  {day.day.condition.text}
+                </Card.Description>
+              </Card.Content>
+            </Card>
+          </Grid.Column>
+        ))}
+      </Grid>
+    </Segment>
   );
 };
 
