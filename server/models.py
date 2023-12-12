@@ -83,7 +83,7 @@ class Event(db.Model, SerializerMixin):
     user_events = db.relationship('UserEvent', back_populates="event")
     
     
-    serialize_only = ('id', 'name', 'description', 'resort_events', '-resort_events.event')
+    serialize_only = ('id', 'name', 'description',)
     # serialize_rules = ('id', 'name', 'description',)
     
     @validates('name')

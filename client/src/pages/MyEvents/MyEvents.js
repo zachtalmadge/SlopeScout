@@ -47,8 +47,8 @@ const MyEvents = () => {
             <ModelMasthead text="My Events" />
             <Container>
                 <Grid>
-                    {events.map(user_event => (
-                        <Grid.Column key={user_event.id} width={4}>
+                    {events.map((user_event, i) => (
+                        <Grid.Column key={i} width={4}>
                             <Card>
                                 <Image src="./assets/resort_placeholder.png" />
                                 <Card.Content>

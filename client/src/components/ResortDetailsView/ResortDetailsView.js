@@ -6,6 +6,8 @@ import { faBookmark } from '@fortawesome/free-solid-svg-icons';
 import BookmarkModal from '../BookmarkModal';
 import { useTheme } from '../../contexts/ThemeProvider';
 import WeatherForecast from '../WeatherForecast';
+import { useOutletContext } from 'react-router-dom';
+
 
 
 const URL = "http://127.0.0.1:5555/user/1/bookmark"
@@ -14,6 +16,22 @@ const ResortDetailsView = ({ resort }) => {
   const { id, name, description, state, city, reviews, events } = resort;
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
+
+  const { userEvents, setUserEvents } = useOutletContext()
+
+
+  const addToUserEvents = (event) => {
+    const eventName = event.event.name
+    const eventTime = event.time
+
+    const userEvent = {
+      resortName: resort.name,
+      eventName, eventTime
+    }
+
+    setUserEvents([...userEvents, userEvent])
+    console.log(userEvents)
+  }
 
   const { theme } = useTheme();
 
@@ -53,7 +71,7 @@ const ResortDetailsView = ({ resort }) => {
             <Grid.Row>
               <Grid.Column width={10}>
 
-                <Header color={theme === 'light' ? '' : 'blue'} as="h1">{name}</Header>
+                <Header color={theme === 'light' ? 'grey' : 'blue'} as="h1">{name}</Header>
                 <p>{description}</p>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   <Icon name="map marker alternate" />
@@ -69,7 +87,7 @@ const ResortDetailsView = ({ resort }) => {
               </Grid.Column>
 
               <Grid.Column width={6}>
-                {resort ? <ResortDetailsPanes reviews={reviews} events={events} /> : ''}
+                {resort ? <ResortDetailsPanes reviews={reviews} events={events} addToUserEvents={addToUserEvents} /> : ''}
               </Grid.Column>
 
             </Grid.Row>

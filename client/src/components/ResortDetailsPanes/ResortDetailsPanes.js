@@ -6,9 +6,7 @@ import sortByDate from '../../util/sortByDate';
 import { useTheme } from '../../contexts/ThemeProvider';
 
 
-const ResortDetailsPanes = ({ reviews, events }) => {
-
-    const URL = 'http://127.0.0.1:5555/user/1/event'
+const ResortDetailsPanes = ({ reviews, events, addToUserEvents }) => {
 
     const { theme } = useTheme();
 
@@ -17,28 +15,6 @@ const ResortDetailsPanes = ({ reviews, events }) => {
         color: theme === 'light' ? 'black' : 'white', // Dark mode text color
       };
 
-
-    const handleRegister = async (eventId) => {
-        try {
-            const response = await fetch(`${URL}/${eventId}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            if (response.ok) {
-                // If the response is successful, alert the user
-                alert('Successfully registered for the event!');
-            } else {
-                // Handle non-successful responses here
-                alert('Failed to register for the event.');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('An error occurred while trying to register for the event.');
-        }
-    };
 
     const reviewPanes = {
         menuItem: 'Reviews',
@@ -72,7 +48,7 @@ const ResortDetailsPanes = ({ reviews, events }) => {
                         </Card.Content>
                         <Card.Content extra style={{backgroundColor: theme === 'light' ? 'white' : "#1B1C1D"}}> 
                             <DateTimeDisplay dateTimeString={event.time} theme={theme} />
-                            <Button primary onClick={() => handleRegister(event.event_id)} inverted={theme === 'dark'}>
+                            <Button primary onClick={() => addToUserEvents(event)} inverted={theme === 'dark'}>
                                 Register
                             </Button>
                         </Card.Content>
