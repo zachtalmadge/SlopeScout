@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark } from '@fortawesome/free-solid-svg-icons';
 import BookmarkModal from '../BookmarkModal';
 import { useTheme } from '../../contexts/ThemeProvider';
+import WeatherForecast from '../WeatherForecast';
 
 
 const URL = "http://127.0.0.1:5555/user/1/bookmark"
@@ -51,6 +52,7 @@ const ResortDetailsView = ({ resort }) => {
           <Grid>
             <Grid.Row>
               <Grid.Column width={10}>
+
                 <Header color={theme === 'light' ? '' : 'blue'} as="h1">{name}</Header>
                 <p>{description}</p>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -61,12 +63,15 @@ const ResortDetailsView = ({ resort }) => {
                     Bookmark
                   </Button>
                 </div>
+                <WeatherForecast resort={resort.city}/>
                 <Divider />
                 <Image style={{ width: '80%' }} src="../assets/night_resort_placeholder.png" alt={name} />
               </Grid.Column>
+
               <Grid.Column width={6}>
                 {resort ? <ResortDetailsPanes reviews={reviews} events={events} /> : ''}
               </Grid.Column>
+
             </Grid.Row>
           </Grid>
           <BookmarkModal
