@@ -31,30 +31,41 @@ const MyEvents = () => {
         }
     };
 
+    // find matching resort event
+    // isolate the actual time of the event
+
+    function isolateTime(resortEvents, resortID){
+        let resortEvent =  resortEvents.find(resortEvent => {
+            return resortEvent.resort_id === resortID
+        })
+
+        return resortEvent ? resortEvent.time : undefined
+    }
+
     return (
         <>
             <ModelMasthead text="My Events" />
             <Container>
                 <Grid>
-                    {events.map(event => (
-                        <Grid.Column key={event.id} width={4}>
+                    {events.map(user_event => (
+                        <Grid.Column key={user_event.id} width={4}>
                             <Card>
                                 <Image src="./assets/resort_placeholder.png" />
                                 <Card.Content>
                                     <Card.Header>
-                                        {event.event.name}
+                                        {user_event.event.name}
                                     </Card.Header>
                                     <Card.Meta>
                                         <span>
-                                            <FontAwesomeIcon icon={faMapMarkerAlt} /> {event.resort.name}
+                                            <FontAwesomeIcon icon={faMapMarkerAlt} /> {user_event.resort.name}
                                         </span>
                                     </Card.Meta>
                                     <Card.Description>
-                                        <DateTimeDisplay dateTimeString={event.time} />
+                                        <DateTimeDisplay dateTimeString={isolateTime(user_event.event.resort_events, user_event.resort.id)} />
                                     </Card.Description>
                                 </Card.Content>
                                 <Card.Content extra>
-                                    <Button color='red' onClick={() => handleRemoveEvent(event.id)}>
+                                    <Button color='red' onClick={() => handleRemoveEvent(user_event.id)}>
                                         Remove Event
                                     </Button>
                                 </Card.Content>

@@ -17,6 +17,8 @@ class User(db.Model, SerializerMixin):
     
     events = association_proxy('user_events', 'event')
     
+    serialize_rules = ('id', 'user_events', '-user_events.user')
+    
     
 
 class Resort(db.Model, SerializerMixin):
@@ -35,7 +37,7 @@ class Resort(db.Model, SerializerMixin):
     
     user_events = db.relationship('UserEvent', back_populates="resort")
     
-    serialize_only = ('id', 'name', 'city', 'state', 'description', '-events.resort', '-reviews.resort', '-bookmarks.resort')
+    serialize_only = ('id', 'name', 'city', 'state', 'description')
     
     
     
@@ -81,7 +83,8 @@ class Event(db.Model, SerializerMixin):
     user_events = db.relationship('UserEvent', back_populates="event")
     
     
-    serialize_only = ('id', 'name', 'description')
+    serialize_only = ('id', 'name', 'description', 'resort_events', '-resort_events.event')
+    # serialize_rules = ('id', 'name', 'description',)
     
     @validates('name')
     def validate_name(self, key, name):

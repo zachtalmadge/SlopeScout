@@ -113,7 +113,7 @@ class UserEvents(Resource):
         try:
             if user := db.session.get(User, user_id):
                 print(user)
-                return [event.to_dict() for event in user.events], 200
+                return [event.to_dict() for event in user.user_events], 200
             
         except Exception as e:
             return {'message': str(e)}, 500
@@ -129,10 +129,14 @@ class UserEvents(Resource):
                 return {'message': 'User has already registered for this event'}, 400
 
             # If no UserEvent exists, create a new one
-            user_event = UserEvent(user_id=user_id, event_id=resort_event_id)
-            db.session.add(user_event)
-            db.session.commit()
-            return user_event.to_dict(), 201
+            if resort_event := db.session.get(ResortEvent, resort_event_id):
+                               
+                
+            
+                user_event = UserEvent(user_id=user_id, event_id=resort_event.event_id, resort_id=resort_event.resort_id)
+                db.session.add(user_event)
+                db.session.commit()
+                return user_event.to_dict(), 201
         except Exception as e:
             db.session.rollback()
             return {'message': str(e)}, 500
