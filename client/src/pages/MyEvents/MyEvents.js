@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
 import { Grid, Card, Button, Container, Image } from 'semantic-ui-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarAlt, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
+import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import ModelMasthead from "../../components/ModelMasthead/ModelMasthead";
 import DateTimeDisplay from '../../components/DateTimeDisplay/DateTimeDisplay';
 import { useOutletContext } from 'react-router-dom';
@@ -11,11 +10,7 @@ const MyEvents = () => {
 
     const { userEvents, setUserEvents } = useOutletContext()
 
-    console.log(userEvents)
-
     let renderedEvents = userEvents.map((userEvent, i) => ({...userEvent, 'id': i}))
-
-    console.log(renderedEvents)
 
     const handleRemoveEvent = (id) => {
         renderedEvents = renderedEvents.filter(event => event.id !== id)
