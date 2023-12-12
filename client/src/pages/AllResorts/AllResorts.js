@@ -3,12 +3,20 @@ import { Grid, Input, Button, Segment, Container, Pagination } from 'semantic-ui
 import ModelMasthead from '../../components/ModelMasthead';
 import ResortCard from '../../components/ResortCard';
 import useFetch from '../../hooks/useFetch';
+import { useTheme } from '../../contexts/ThemeProvider';
 
 const URL = 'http://127.0.0.1:5555/resorts';
 
 const AllResorts = () => {
     // State to store the fetched data
     const { data } = useFetch(URL);
+
+    const { theme } = useTheme();
+
+    const segmentStyle = {
+        backgroundColor: theme === 'light' ? 'white' : '#1B1C1D',
+        color: theme === 'light' ? 'black' : 'white',
+    };
 
 
     // State to store the filtered data
@@ -59,8 +67,8 @@ const AllResorts = () => {
     return (
         <>
             <ModelMasthead text="All Resorts" />
-            <Segment vertical textAlign="center" className="filter-segment">
-                <Container>
+            <Segment vertical textAlign="center" className="filter-segment" style={segmentStyle}>
+                <Container style={{paddingBottom:"50px"}}>
                     {/* Input fields for filters */}
                     <Input
                         icon="search"
@@ -75,27 +83,33 @@ const AllResorts = () => {
                         placeholder="Search by city..."
                         value={cityFilter}
                         onChange={(e) => setCityFilter(e.target.value)}
+                        style={{marginLeft: "25px", marginRight:"25px"}}
                     />
-                    <Button primary onClick={applyFilters}>
+                    <Button primary onClick={applyFilters} inverted={theme === 'dark'}>
                         Apply Filters
                     </Button>
                 </Container>
             </Segment>
-            <Grid container columns={4}>
-                {/* Map over the current slice of resorts to display */}
-                {currentResorts.map((resort) => (
-                    <Grid.Column key={resort.id}>
-                        <ResortCard resort={resort} />
-                    </Grid.Column>
-                ))}
-            </Grid>
-            <Container textAlign="center">
-                {/* Pagination component */}
-                <Pagination
-                    activePage={currentPage}
-                    onPageChange={handlePaginationChange}
-                    totalPages={Math.ceil(filteredData.length / itemsPerPage)}
-                />
+            <Container fluid style={segmentStyle}>
+                <Grid container columns={4}>
+                    {/* Map over the current slice of resorts to display */}
+                    {currentResorts.map((resort) => (
+                        <Grid.Column key={resort.id}>
+                            <ResortCard resort={resort} />
+                        </Grid.Column>
+                    ))}
+                </Grid>
+            </Container>
+            <Container fluid style={segmentStyle}>
+
+                <Container textAlign="center" style={{paddingTop:"50px", paddingBottom: "50px"}}>
+                    {/* Pagination component */}
+                    <Pagination
+                        activePage={currentPage}
+                        onPageChange={handlePaginationChange}
+                        totalPages={Math.ceil(filteredData.length / itemsPerPage)}
+                    />
+                </Container>
             </Container>
         </>
     );
