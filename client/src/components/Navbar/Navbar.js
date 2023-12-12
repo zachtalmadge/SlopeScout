@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Menu, Input, Checkbox } from 'semantic-ui-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHome,
@@ -44,22 +44,22 @@ const Navbar = () => {
   return (
     <Menu id="nav" style={{ ...navbarStyle,  marginBottom: "0px", color:"green" }}>
       <Container>
-        <Menu.Item color={theme === "light" ? "" : "blue"} as={Link} active to="/">
+        <Menu.Item style={{color:theme === "light" ? "" : "rgb(33,133,208"}} as={NavLink} to="/">
           <FontAwesomeIcon icon={faHome} style={iconStyle} /> Home
         </Menu.Item>
-        <Menu.Item color={theme === "light" ? "" : "blue"} as={Link} active to="/allResorts">
+        <Menu.Item style={{color:theme === "light" ? "" : "rgb(33,133,208"}} as={NavLink} to="/allResorts">
           <FontAwesomeIcon icon={faMountain} style={iconStyle} /> Resorts
         </Menu.Item>
         <Menu.Menu position="right">
-          <Menu.Item color={theme === "light" ? "" : "blue"} as={Link} active to="/bookmarks">
+          <Menu.Item style={{color: theme === "light" ? "" : "rgb(33,133,208"}} as={NavLink} to="/bookmarks">
             <FontAwesomeIcon icon={faBookmark} style={iconStyle} /> Bookmarks
           </Menu.Item>
-          <Menu.Item color={theme === "light" ? "" : "blue"} as={Link} active to="/myEvents">
+          <Menu.Item style={{color: theme === "light" ? "" : "rgb(33,133,208"}} as={NavLink} to="/myEvents">
             <FontAwesomeIcon icon={faCalendarCheck} style={iconStyle} /> My Events
           </Menu.Item>
           <Menu.Item>
             <Input
-            color={theme === "light" ? "" : "blue"}
+              color={theme === "light" ? "" : "blue"}
               icon='search'
               placeholder='Search...'
               value={searchQuery}

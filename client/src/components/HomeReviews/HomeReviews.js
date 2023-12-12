@@ -42,7 +42,7 @@ const HomeReviews = () => {
   };
   
   const cardStyle = {
-    backgroundColor: theme === 'light' ? 'white' : 'grey', // Adjust for cards
+    backgroundColor: theme === 'light' ? 'white' : '#1B1C1D', // Adjust for cards
   };
 
   return (
@@ -54,13 +54,14 @@ const HomeReviews = () => {
       <Grid columns={2} stackable centered>
         {reviews.map((review, index) => (
           <Grid.Column key={index}>
+
             <Card fluid style={cardStyle}>
               <Card.Content>
-                <Card.Header>
+                <Card.Header style={{color: "rgb(33,133,208"}}>
                   <FontAwesomeIcon icon={faUserCircle} style={{ marginRight: '5px' }} />
                   {review.name}
                 </Card.Header>
-                <Card.Description>{review.content}</Card.Description>
+                <Card.Description style={{color: theme === 'light' ? '' : "white"}}>{review.content}</Card.Description>
               </Card.Content>
               <Card.Content extra>
                 <Rating
@@ -71,6 +72,7 @@ const HomeReviews = () => {
                 />
               </Card.Content>
             </Card>
+
           </Grid.Column>
         ))}
       </Grid>

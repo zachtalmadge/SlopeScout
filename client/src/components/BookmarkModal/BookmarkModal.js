@@ -8,7 +8,7 @@ const BookmarkModal = ({ resortName, message, open, onClose }) => {
                 <p>{message}</p>
             </Modal.Content>
             <Modal.Actions>
-                <Button color='green' onClick={onClose}>
+                <Button color='primary' onClick={onClose}>
                     OK
                 </Button>
             </Modal.Actions>
