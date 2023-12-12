@@ -12,6 +12,8 @@ const ResortDetails =  () => {
 
     const { data } = useFetch(`${URL}/${id}`)
 
+    console.log(data)
+
 
     // resort data along with all reviews stored on data
     // would need to make fetch call to submit the review to persist in server

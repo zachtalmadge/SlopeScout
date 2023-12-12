@@ -72,7 +72,7 @@ const ResortDetailsPanes = ({ reviews, events }) => {
                         </Card.Content>
                         <Card.Content extra style={{backgroundColor: theme === 'light' ? 'white' : "#1B1C1D"}}> 
                             <DateTimeDisplay dateTimeString={event.time} theme={theme} />
-                            <Button primary onClick={() => handleRegister(event.event.id)} inverted={theme === 'dark'}>
+                            <Button primary onClick={() => handleRegister(event.event_id)} inverted={theme === 'dark'}>
                                 Register
                             </Button>
                         </Card.Content>
