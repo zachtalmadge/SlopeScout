@@ -48,9 +48,6 @@ const Navbar = () => {
         <Menu.Item color={theme === "light" ? "" : "blue"} as={Link} active to="/allResorts">
           <FontAwesomeIcon icon={faMountain} style={iconStyle} /> Resorts
         </Menu.Item>
-        <Menu.Item color={theme === "light" ? "" : "blue"} as={Link} active to="/events">
-          <FontAwesomeIcon icon={faCalendarAlt} style={iconStyle} /> Events
-        </Menu.Item>
         <Menu.Menu position="right">
           <Menu.Item color={theme === "light" ? "" : "blue"} as={Link} active to="/bookmarks">
             <FontAwesomeIcon icon={faBookmark} style={iconStyle} /> Bookmarks

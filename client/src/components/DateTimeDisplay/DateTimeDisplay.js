@@ -17,11 +17,11 @@ function formatDateTime(dateTimeString) {
     return { formattedDate, formattedTime };
 }
 
-const DateTimeDisplay = ({ dateTimeString }) => {
+const DateTimeDisplay = ({ dateTimeString, theme }) => {
     const { formattedDate, formattedTime } = formatDateTime(dateTimeString);
 
     return (
-        <div>
+        <div style={{color: theme === 'light' ? '' : 'silver'}}>
             <FontAwesomeIcon icon={faCalendar} /> {formattedDate}
             <br />
             <FontAwesomeIcon icon={faClock} /> {formattedTime}

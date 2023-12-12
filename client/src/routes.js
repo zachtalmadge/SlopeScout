@@ -3,7 +3,6 @@ import Home from './pages/Home'
 import AllResorts from './pages/AllResorts/AllResorts'
 import ResortDetails from './pages/ResortDetails'
 import Bookmarks from './pages/Bookmarks/Bookmarks'
-import Events from './pages/Events/Events'
 import MyEvents from './pages/MyEvents/MyEvents'
 import SearchPage from './pages/SearchPage/SearchPage'
 
@@ -23,10 +22,6 @@ const routes = [
             {
                 path: '/resort/:id',
                 element: <ResortDetails />
-            },
-            {
-                path: '/events',
-                element: <Events />
             },
             {
                 path: '/bookmarks',

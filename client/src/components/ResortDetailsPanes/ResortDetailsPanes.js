@@ -3,10 +3,20 @@ import { Tab, Button, Card } from 'semantic-ui-react';
 import renderRatingStars from '../../util/renderRatingStars';
 import DateTimeDisplay from '../DateTimeDisplay';
 import sortByDate from '../../util/sortByDate';
+import { useTheme } from '../../contexts/ThemeProvider';
+
 
 const ResortDetailsPanes = ({ reviews, events }) => {
 
     const URL = 'http://127.0.0.1:5555/user/1/event'
+
+    const { theme } = useTheme();
+
+    const paneStyle = {
+        backgroundColor: theme === 'light' ? 'white' : '#1B1C1D', // Dark mode background
+        color: theme === 'light' ? 'black' : 'white', // Dark mode text color
+      };
+
 
     const handleRegister = async (eventId) => {
         try {
@@ -33,18 +43,17 @@ const ResortDetailsPanes = ({ reviews, events }) => {
     const reviewPanes = {
         menuItem: 'Reviews',
         render: () => (
-            <Tab.Pane>
+            <Tab.Pane style={paneStyle}>
                 {reviews && reviews.map((review, index) => (
                     <Card key={index}>
-                        <Card.Content>
-                            <Card.Description>{review.text}</Card.Description>
-                        </Card.Content>
-                        <Card.Content extra>
+                        <Card.Content style={{backgroundColor: theme === 'light' ? 'white' : "#1B1C1D"}}>
+                            <Card.Description style={{color: theme === 'light' ? "" : 'white'}}>{review.text}</Card.Description>
+                            <hr/>
                             <p>Rating: {renderRatingStars(review.rating)}</p>
                         </Card.Content>
                     </Card>
                 ))}
-                <Button grey="true" style={{ marginBottom: '10px' }}>
+                <Button color="blue" style={{ marginBottom: '10px' }} inverted={theme === 'dark'}>
                     Submit a Review
                 </Button>
             </Tab.Pane>
@@ -54,16 +63,16 @@ const ResortDetailsPanes = ({ reviews, events }) => {
     const eventPanes = {
         menuItem: 'Events',
         render: () => (
-            <Tab.Pane>
+            <Tab.Pane style={paneStyle}>
                 {events && sortByDate(events).map((event, index) => (
                     <Card key={index}>
-                        <Card.Content>
-                            <Card.Header>{event.event.name}</Card.Header>
-                            <Card.Description>{event.event.description}</Card.Description>
+                        <Card.Content style={{backgroundColor: theme === 'light' ? 'white' : "#1B1C1D"}}>
+                            <Card.Header style={{color:"rgb(33,133,208)"}}>{event.event.name}</Card.Header>
+                            <Card.Description style={{color: theme === 'light' ? "" : 'white'}}>{event.event.description}</Card.Description>
                         </Card.Content>
-                        <Card.Content extra>
-                            <DateTimeDisplay dateTimeString={event.time} />
-                            <Button primary onClick={() => handleRegister(event.event.id)}>
+                        <Card.Content extra style={{backgroundColor: theme === 'light' ? 'white' : "#1B1C1D"}}> 
+                            <DateTimeDisplay dateTimeString={event.time} theme={theme} />
+                            <Button primary onClick={() => handleRegister(event.event.id)} inverted={theme === 'dark'}>
                                 Register
                             </Button>
                         </Card.Content>
