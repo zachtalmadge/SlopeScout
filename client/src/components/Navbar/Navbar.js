@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHome,
   faMountain,
-  faCalendarAlt,
   faBookmark,
   faCalendarCheck,
   faMoon,
@@ -29,6 +28,9 @@ const Navbar = () => {
   };
 
   const { theme, toggleTheme } = useTheme();
+
+  const darkModeIcon = darkMode ? faSun : faMoon;
+  const iconColor = darkMode ? 'white' : 'black';
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
@@ -67,12 +69,12 @@ const Navbar = () => {
           </Menu.Item>
           <Menu.Item>
             <Checkbox
-            color={theme === "light" ? "" : "blue"}
+              style={{color: "red"}}
               toggle
-              label={darkMode ? 'Dark Mode' : 'Light Mode'}
               checked={darkMode}
               onChange={toggleDarkMode}
             />
+            <FontAwesomeIcon style={{marginLeft:"8px"}}icon={darkModeIcon} color={iconColor} />
           </Menu.Item>
         </Menu.Menu>
       </Container>
