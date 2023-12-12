@@ -64,7 +64,7 @@ const WeatherForecast = ({ resort }) => {
                 <FontAwesomeIcon icon={getWeatherIcon(day.day.condition.text)} size="2x" />
                 <Card.Header>{formatDate(day.date)}</Card.Header>
                 <Card.Meta>
-                  High: {day.day.maxtemp_c}°C, Low: {day.day.mintemp_c}°C
+                  High: {day.day.maxtemp_f}°F, Low: {day.day.mintemp_f}°F
                 </Card.Meta>
                 <Card.Description>
                   Chance of rain: {day.day.daily_chance_of_rain}%
