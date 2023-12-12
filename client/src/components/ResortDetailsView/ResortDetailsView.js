@@ -26,11 +26,11 @@ const ResortDetailsView = ({ resort }) => {
 
     const userEvent = {
       resortName: resort.name,
+      resortCity: resort.city,
       eventName, eventTime
     }
 
     setUserEvents([...userEvents, userEvent])
-    console.log(userEvents)
   }
 
   const { theme } = useTheme();

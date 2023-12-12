@@ -4,68 +4,49 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import ModelMasthead from "../../components/ModelMasthead/ModelMasthead";
 import DateTimeDisplay from '../../components/DateTimeDisplay/DateTimeDisplay';
+import { useOutletContext } from 'react-router-dom';
+
 
 const MyEvents = () => {
-    const [events, setEvents] = useState([]);
 
-    useEffect(() => {
-        fetch('http://127.0.0.1:5555/user/1/event/1')
-            .then(response => response.json())
-            .then(data => setEvents(data))
-            .catch(error => console.error('Error:', error));
-    }, []);
+    const { userEvents, setUserEvents } = useOutletContext()
 
-    const handleRemoveEvent = async (eventId) => {
-        try {
-            const response = await fetch(`http://127.0.0.1:5555/user/1/event/${eventId}`, {
-                method: 'DELETE'
-            });
+    console.log(userEvents)
 
-            if (response.ok) {
-                setEvents(events.filter(event => event.id !== eventId));
-            } else {
-                console.error('Failed to remove the event');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
+    let renderedEvents = userEvents.map((userEvent, i) => ({...userEvent, 'id': i}))
+
+    console.log(renderedEvents)
+
+    const handleRemoveEvent = (id) => {
+        renderedEvents = renderedEvents.filter(event => event.id !== id)
+        renderedEvents.forEach(event => { delete event.id})
+        setUserEvents(renderedEvents)
     };
-
-    // find matching resort event
-    // isolate the actual time of the event
-
-    function isolateTime(resortEvents, resortID){
-        let resortEvent =  resortEvents.find(resortEvent => {
-            return resortEvent.resort_id === resortID
-        })
-
-        return resortEvent ? resortEvent.time : undefined
-    }
 
     return (
         <>
             <ModelMasthead text="My Events" />
             <Container>
                 <Grid>
-                    {events.map((user_event, i) => (
-                        <Grid.Column key={i} width={4}>
+                    {renderedEvents.map(event => (
+                        <Grid.Column key={event.id} width={4}>
                             <Card>
                                 <Image src="./assets/resort_placeholder.png" />
                                 <Card.Content>
                                     <Card.Header>
-                                        {user_event.event.name}
+                                        {event.eventName}
                                     </Card.Header>
                                     <Card.Meta>
                                         <span>
-                                            <FontAwesomeIcon icon={faMapMarkerAlt} /> {user_event.resort.name}
+                                            <FontAwesomeIcon icon={faMapMarkerAlt} /> {event.resortCity}
                                         </span>
                                     </Card.Meta>
                                     <Card.Description>
-                                        <DateTimeDisplay dateTimeString={isolateTime(user_event.event.resort_events, user_event.resort.id)} />
+                                        <DateTimeDisplay dateTimeString={event.eventTime}/>
                                     </Card.Description>
                                 </Card.Content>
                                 <Card.Content extra>
-                                    <Button color='red' onClick={() => handleRemoveEvent(user_event.id)}>
+                                    <Button color='red' onClick={() => handleRemoveEvent(event.id)}>
                                         Remove Event
                                     </Button>
                                 </Card.Content>
