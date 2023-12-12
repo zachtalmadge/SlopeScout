@@ -5,7 +5,6 @@ import { faSun, faCloudRain, faSnowflake, faSmog } from '@fortawesome/free-solid
 
 const WeatherForecast = ({ resort }) => {
 
-//   console.log(resort)
   const [forecast, setForecast] = useState(null);
 
   useEffect(() => {
