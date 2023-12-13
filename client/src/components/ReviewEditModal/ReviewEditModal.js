@@ -3,7 +3,7 @@ import { Modal, Button, Icon, Form, Rating } from 'semantic-ui-react';
 
 const ReviewEditModal = ({ review, editReview, open, onClose }) => {
 
-    if (review == null){
+    if (review === null){
         var review = {
             rating: 1,
             text: ''
@@ -18,10 +18,12 @@ const ReviewEditModal = ({ review, editReview, open, onClose }) => {
         let newText = review.text
         setRating(newRating)
         setText(newText)
-    }, [review])
+    }, [])
 
     const handleSubmit = () => {
-        editReview({ ...review, rating, text });
+        console.log(rating, text)
+        const id = review.id
+        editReview({ id, rating, text });
         onClose();
     };
 

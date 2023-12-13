@@ -28,7 +28,6 @@ const ResortDetailsPanes = ({ reviews, events, addToUserEvents }) => {
         setModalOpen(true);
     };
 
-    console.log(reviews)
 
     useEffect(() => {
         // initial render has reviews at null so component must rerender when data comes in
@@ -57,8 +56,13 @@ const ResortDetailsPanes = ({ reviews, events, addToUserEvents }) => {
 
     }
 
-    const editReview = async (review) => {
-        console.log(review)
+    const editReview = async (editedReview) => {
+        console.log(editedReview)
+        console.log(resortReviews)
+        const newReviews = resortReviews.filter(review => review.id !== editedReview.id)
+        console.log(newReviews)
+        setResortReviews([...newReviews, editedReview])
+        console.log(resortReviews)
     }
 
     const handleEventClick = (event) => {
