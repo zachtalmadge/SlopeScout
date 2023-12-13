@@ -65,7 +65,6 @@ const ResortDetailsPanes = ({ reviews, events, addToUserEvents }) => {
                         {isModalOpen && (
                             <EventModal
                                 addToUserEvents={addToUserEvents}
-                                // sendEmail={sendEmail}
                                 eventName={event.event.name}
                                 eventTime={event.time}
                                 onClose={() => setIsModalOpen(false)}

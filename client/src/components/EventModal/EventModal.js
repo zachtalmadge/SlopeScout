@@ -47,7 +47,7 @@ const { formattedDate, formattedTime } = formatDateTime(eventTime)
       sendEmail();
       setLoading(false);
       onClose(); // Close the modal
-    }, 3000); // Spinner shows for 3 seconds
+    }, 2000); // Spinner shows for 2 seconds
   };
 
   function sendEmail(){
