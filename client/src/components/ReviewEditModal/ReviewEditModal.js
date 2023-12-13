@@ -2,6 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Button, Icon, Form, Rating } from 'semantic-ui-react';
 
 const ReviewEditModal = ({ review, editReview, open, onClose }) => {
+
+    if (review == null){
+        var review = {
+            rating: 1,
+            text: ''
+        }
+    }
+
     const [rating, setRating] = useState(review.rating);
     const [text, setText] = useState(review.text);
 

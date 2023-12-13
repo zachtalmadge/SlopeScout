@@ -57,8 +57,8 @@ const ResortDetailsPanes = ({ reviews, events, addToUserEvents }) => {
 
     }
 
-    const editReview = async () => {
-
+    const editReview = async (review) => {
+        console.log(review)
     }
 
     const handleEventClick = (event) => {
