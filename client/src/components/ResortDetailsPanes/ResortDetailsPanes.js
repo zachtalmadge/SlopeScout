@@ -5,6 +5,7 @@ import DateTimeDisplay from '../DateTimeDisplay';
 import sortByDate from '../../util/sortByDate';
 import { useTheme } from '../../contexts/ThemeProvider';
 import EventModal from '../EventModal/EventModal';
+import ReviewEditModal from '../../components/ReviewEditModal';
 
 const ResortDetailsPanes = ({ reviews, events, addToUserEvents }) => {
 
@@ -16,7 +17,16 @@ const ResortDetailsPanes = ({ reviews, events, addToUserEvents }) => {
 
     const { theme } = useTheme();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [ resortReviews, setResortReviews ] = useState(reviews)
+    const [resortReviews, setResortReviews] = useState(reviews)
+
+    // states for edit review modal
+    const [modalOpen, setModalOpen] = useState(false);
+    const [currentReview, setCurrentReview] = useState(null);
+
+    const handleEditClick = (review) => {
+        setCurrentReview(review);
+        setModalOpen(true);
+    };
 
     console.log(reviews)
 
@@ -33,14 +43,22 @@ const ResortDetailsPanes = ({ reviews, events, addToUserEvents }) => {
             resort_id: review.resort_id
         }
         const body = JSON.stringify(data)
-        const headers = {"content-type": "application/json"}
-        let response = await fetch(`${URL}`, {method: "DELETE", headers, body})
-        if (response.ok){
+        const headers = { "content-type": "application/json" }
+        let response = await fetch(`${URL}`, { method: "DELETE", headers, body })
+        if (response.ok) {
             let newReviews = resortReviews.filter(reviewID => reviewID.id !== review.id)
             setResortReviews(newReviews)
         } else {
             alert('there was a problem')
         }
+    }
+
+    const addReview = async () => {
+
+    }
+
+    const editReview = async () => {
+
     }
 
     const handleEventClick = (event) => {
@@ -56,30 +74,40 @@ const ResortDetailsPanes = ({ reviews, events, addToUserEvents }) => {
     const reviewPanes = {
         menuItem: 'Reviews',
         render: () => (
-            <Tab.Pane style={paneStyle}>
-                {resortReviews ? resortReviews.map((review, index) => (
-                    <Card key={index}>
-                        <Card.Content style={{ backgroundColor: theme === 'light' ? 'white' : "#1B1C1D" }}>
-                            <Card.Description style={{ color: theme === 'light' ? "" : 'white' }}>{review.text}</Card.Description>
-                            <hr />
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <p>Rating: {renderRatingStars(review.rating)}</p>
-                                <div>
-                                    <Button onClick={() => deleteReview(review)} icon color="grey" inverted={theme === 'dark'}>
-                                        <Icon name="trash" />
-                                    </Button>
-                                    <Button icon color="grey" inverted={theme === 'dark'}>
-                                        <Icon name="pencil" />
-                                    </Button>
-                                </div>
-                            </div>
-                        </Card.Content>
-                    </Card>
-                )): ""}
-                <Button color="blue" style={{ marginBottom: '10px' }} inverted={theme === 'dark'}>
-                    Submit a Review
-                </Button>
-            </Tab.Pane>
+            <>
+                <Tab.Pane style={paneStyle}>
+                    {resortReviews ? resortReviews.map((review, index) => (
+                        <>
+                            <Card key={index}>
+                                <Card.Content style={{ backgroundColor: theme === 'light' ? 'white' : "#1B1C1D" }}>
+                                    <Card.Description style={{ color: theme === 'light' ? "" : 'white' }}>{review.text}</Card.Description>
+                                    <hr />
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                        <p>Rating: {renderRatingStars(review.rating)}</p>
+                                        <div>
+                                            <Button onClick={() => deleteReview(review)} icon color="grey" inverted={theme === 'dark'}>
+                                                <Icon name="trash" />
+                                            </Button>
+                                            <Button onClick={() => handleEditClick(review)} icon color="grey" inverted={theme === 'dark'}>
+                                                <Icon name="pencil" />
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </Card.Content>
+                            </Card>
+                            <ReviewEditModal
+                                review={currentReview}
+                                editReview={editReview}
+                                open={modalOpen}
+                                onClose={() => setModalOpen(false)}
+                            />
+                        </>
+                    )) : ""}
+                    <Button color="blue" style={{ marginBottom: '10px' }} inverted={theme === 'dark'}>
+                        Submit a Review
+                    </Button>
+                </Tab.Pane>
+            </>
         ),
     };
 
@@ -117,7 +145,8 @@ const ResortDetailsPanes = ({ reviews, events, addToUserEvents }) => {
 
     const panes = [reviewPanes, eventPanes];
 
-    return <Tab panes={panes} />;
+    return <Tab panes={panes} />
+
 };
 
 export default ResortDetailsPanes;
