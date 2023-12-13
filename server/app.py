@@ -17,6 +17,7 @@ from models import (
 fake = Faker()
 
 
+
 # Routes
 class Resorts(Resource):
     def get(self):
@@ -77,10 +78,9 @@ class ResortReview(Resource):
             db.session.rollback()
             return {"error": str(e)}, 422
 
-    def delete(self, resort_id):
+    def delete(self):
         data = request.get_json()
-        review_id = data.get('review_id')
-        if review:= Review.query.filter_by(id=review_id, resort_id=resort_id).first():
+        if review:= Review.query.filter_by(**data).first():
             try:
                 db.session.delete(review)
                 db.session.commit()
@@ -101,8 +101,7 @@ class ResortReview(Resource):
         return {'message': 'Review not found'}, 404
     
 # Post / Delete / Put a review for a resort 
-# GETTING THIS ERROR "TypeError: delete() got an unexpected keyword argument 'id'"
-api.add_resource(ResortReview, '/resort/<int:resort_id>/review')
+api.add_resource(ResortReview, '/resort/reviews')
 
 
 class UserEvents(Resource):

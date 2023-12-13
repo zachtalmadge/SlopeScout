@@ -20,6 +20,7 @@ const ResortDetailsView = ({ resort }) => {
   const { userEvents, setUserEvents } = useOutletContext()
 
 
+
   const addToUserEvents = (event) => {
     const eventName = event.event.name
     const eventTime = event.time
