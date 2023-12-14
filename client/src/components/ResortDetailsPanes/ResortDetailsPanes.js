@@ -8,19 +8,14 @@ import EventModal from '../EventModal/EventModal';
 import ReviewEditModal from '../../components/ReviewEditModal';
 import ReviewAddModal from '../ReviewAddModal/ReviewAddModal';
 
-const ResortDetailsPanes = ({ reviews, events, addToUserEvents }) => {
-
-    
-    if (reviews === undefined) {
-        reviews = []
-    }
+const ResortDetailsPanes = ({ reviews=[], events, addToUserEvents, resort_id }) => {
 
     const URL = 'http://127.0.0.1:5555/resort/reviews';
 
     const { theme } = useTheme();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [resortReviews, setResortReviews] = useState(reviews)
+    const [resortReviews, setResortReviews] = useState([...reviews])
 
     // states for edit review modal
     const [modalOpen, setModalOpen] = useState(false);
@@ -68,7 +63,6 @@ const ResortDetailsPanes = ({ reviews, events, addToUserEvents }) => {
     }
 
     const addReview = async (review) => {
-        const resort_id = reviews[0].resort_id
         const newReview = {...review, resort_id}
         const body = JSON.stringify(newReview)
         const headers = {"content-type": "application/json"}
@@ -81,7 +75,6 @@ const ResortDetailsPanes = ({ reviews, events, addToUserEvents }) => {
     }
 
     const editReview = async (editedReview) => {
-        console.log(editedReview)
         const body = JSON.stringify(editedReview)
         const headers = { "content-type": "application/json" }
 
@@ -134,13 +127,13 @@ const ResortDetailsPanes = ({ reviews, events, addToUserEvents }) => {
                                 open={modalOpen}
                                 onClose={() => setModalOpen(false)}
                             />
-                            <ReviewAddModal
-                                addReview={addReview}
-                                open={isReviewModalOpen}
-                                onClose={handleCloseReviewModal}
-                            />
                         </>
                     )) : ""}
+                    <ReviewAddModal
+                        addReview={addReview}
+                        open={isReviewModalOpen}
+                        onClose={handleCloseReviewModal}
+                    />
                     <Button onClick={handleOpenReviewModal} color="blue" style={{ marginBottom: '10px' }} inverted={theme === 'dark'}>
                         Submit a Review
                     </Button>

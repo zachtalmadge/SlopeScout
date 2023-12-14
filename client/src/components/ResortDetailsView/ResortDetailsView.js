@@ -88,7 +88,7 @@ const ResortDetailsView = ({ resort }) => {
               </Grid.Column>
 
               <Grid.Column width={6}>
-                {resort ? <ResortDetailsPanes reviews={reviews} events={events} addToUserEvents={addToUserEvents} /> : ''}
+                {resort ? <ResortDetailsPanes reviews={reviews} events={events} addToUserEvents={addToUserEvents} resort_id={resort.id} /> : ''}
               </Grid.Column>
 
             </Grid.Row>
