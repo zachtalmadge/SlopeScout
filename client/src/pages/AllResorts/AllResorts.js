@@ -35,7 +35,7 @@ const AllResorts = () => {
     // Effect to apply filters whenever the data or filters change
     useEffect(() => {
         applyFilters();
-    }, [data, nameFilter, cityFilter]);
+    }, [data]);
 
     // Function to apply name and city filters
     const applyFilters = () => {

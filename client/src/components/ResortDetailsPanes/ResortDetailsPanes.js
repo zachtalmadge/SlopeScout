@@ -57,12 +57,8 @@ const ResortDetailsPanes = ({ reviews, events, addToUserEvents }) => {
     }
 
     const editReview = async (editedReview) => {
-        console.log(editedReview)
-        console.log(resortReviews)
         const newReviews = resortReviews.filter(review => review.id !== editedReview.id)
-        console.log(newReviews)
         setResortReviews([...newReviews, editedReview])
-        console.log(resortReviews)
     }
 
     const handleEventClick = (event) => {
