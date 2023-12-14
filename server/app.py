@@ -90,14 +90,18 @@ class ResortReview(Resource):
                 return {"error": str(e)}, 404
         return {'message': 'Review not found'}, 404
 
-    def put(self, resort_id):
+    def put(self):
         data = request.get_json()
-        review_id = data.get('review_id')
-        if review:= Review.query.filter_by(id=review_id, resort_id=resort_id).first():
-            review.text = data.get('text', review.text)
-            review.rating = data.get('rating', review.rating)
-            db.session.commit()
-            return review.to_dict(), 200
+        if review := db.session.get(Review, data['id']):
+            try:
+                for attr in data:
+                    setattr(review, attr, data[attr])
+                db.session.add(review)
+                db.session.commit()
+                return review.to_dict(), 200
+            except Exception as e:
+                db.session.rollback()
+                return {"error": str(e)}, 400
         return {'message': 'Review not found'}, 404
     
 # Post / Delete / Put a review for a resort 

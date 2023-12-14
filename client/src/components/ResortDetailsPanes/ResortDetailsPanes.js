@@ -57,8 +57,17 @@ const ResortDetailsPanes = ({ reviews, events, addToUserEvents }) => {
     }
 
     const editReview = async (editedReview) => {
-        const newReviews = resortReviews.filter(review => review.id !== editedReview.id)
-        setResortReviews([...newReviews, editedReview])
+        console.log(editedReview)
+        const body = JSON.stringify(editedReview)
+        const headers = {"content-type": "application/json"}
+
+        let response = await fetch(URL, {method: "PUT", headers, body})
+        if (response.ok){
+            const newReviews = resortReviews.filter(review => review.id !== editedReview.id)
+            setResortReviews([...newReviews, editedReview])
+        } else {
+            alert('there has been an error')
+        }
     }
 
     const handleEventClick = (event) => {
