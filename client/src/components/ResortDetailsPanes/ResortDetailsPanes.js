@@ -6,9 +6,11 @@ import sortByDate from '../../util/sortByDate';
 import { useTheme } from '../../contexts/ThemeProvider';
 import EventModal from '../EventModal/EventModal';
 import ReviewEditModal from '../../components/ReviewEditModal';
+import ReviewAddModal from '../ReviewAddModal/ReviewAddModal';
 
 const ResortDetailsPanes = ({ reviews, events, addToUserEvents }) => {
 
+    
     if (reviews === undefined) {
         reviews = []
     }
@@ -16,12 +18,25 @@ const ResortDetailsPanes = ({ reviews, events, addToUserEvents }) => {
     const URL = 'http://127.0.0.1:5555/resort/reviews';
 
     const { theme } = useTheme();
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [resortReviews, setResortReviews] = useState(reviews)
 
     // states for edit review modal
     const [modalOpen, setModalOpen] = useState(false);
     const [currentReview, setCurrentReview] = useState(null);
+
+    // state for adding review modal
+    const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+
+    const handleOpenReviewModal = () => {
+        setIsReviewModalOpen(true);
+    };
+
+    const handleCloseReviewModal = () => {
+        setIsReviewModalOpen(false);
+    };
+
 
     const handleEditClick = (review) => {
         setCurrentReview(review);
@@ -52,17 +67,26 @@ const ResortDetailsPanes = ({ reviews, events, addToUserEvents }) => {
         }
     }
 
-    const addReview = async () => {
-
+    const addReview = async (review) => {
+        const resort_id = reviews[0].resort_id
+        const newReview = {...review, resort_id}
+        const body = JSON.stringify(newReview)
+        const headers = {"content-type": "application/json"}
+        let response = await fetch(URL, {method: "POST", headers, body})
+        if (response.ok){
+            setResortReviews(resortReviews => [...resortReviews, newReview])
+        } else {
+            alert('there was an issue')
+        }
     }
 
     const editReview = async (editedReview) => {
         console.log(editedReview)
         const body = JSON.stringify(editedReview)
-        const headers = {"content-type": "application/json"}
+        const headers = { "content-type": "application/json" }
 
-        let response = await fetch(URL, {method: "PUT", headers, body})
-        if (response.ok){
+        let response = await fetch(URL, { method: "PUT", headers, body })
+        if (response.ok) {
             const newReviews = resortReviews.filter(review => review.id !== editedReview.id)
             setResortReviews([...newReviews, editedReview])
         } else {
@@ -110,9 +134,14 @@ const ResortDetailsPanes = ({ reviews, events, addToUserEvents }) => {
                                 open={modalOpen}
                                 onClose={() => setModalOpen(false)}
                             />
+                            <ReviewAddModal
+                                addReview={addReview}
+                                open={isReviewModalOpen}
+                                onClose={handleCloseReviewModal}
+                            />
                         </>
                     )) : ""}
-                    <Button color="blue" style={{ marginBottom: '10px' }} inverted={theme === 'dark'}>
+                    <Button onClick={handleOpenReviewModal} color="blue" style={{ marginBottom: '10px' }} inverted={theme === 'dark'}>
                         Submit a Review
                     </Button>
                 </Tab.Pane>

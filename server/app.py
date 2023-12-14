@@ -64,10 +64,9 @@ class ResortEvents(Resource):
 
 
 class ResortReview(Resource):
-    def post(self, resort_id):
+    def post(self):
         data = request.get_json()
-        print(data)
-        review = Review(text=data['text'], rating=int(data['rating']), resort_id=resort_id, user_id=1)
+        review = Review(user_id=1, **data)
         try:
             db.session.add(review)
             db.session.commit()
