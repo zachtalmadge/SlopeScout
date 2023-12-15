@@ -75,8 +75,8 @@ const { formattedDate, formattedTime } = formatDateTime(eventTime)
         )}
       </Modal.Content>
       <Modal.Actions>
-        <Button onClick={onClose} color='red' inverted>
-          No thanks
+        <Button onClick={onClose} color='grey'>
+          No
         </Button>
         <Button color='primary' onClick={handleRegister} disabled={loading}>
           {loading ? (
@@ -84,7 +84,7 @@ const { formattedDate, formattedTime } = formatDateTime(eventTime)
               <Loader size='small'>Sending Email...</Loader>
             </Dimmer>
           ) : (
-            'Send Email'
+            'Send'
           )}
         </Button>
       </Modal.Actions>

@@ -5,7 +5,7 @@ const ReviewEditModal = ({ review, editReview, open, onClose }) => {
 
     if (review === null){
         var review = {
-            rating: 1,
+            rating: 3,
             text: ''
         }
     }
@@ -18,7 +18,7 @@ const ReviewEditModal = ({ review, editReview, open, onClose }) => {
         let newText = review.text
         setRating(newRating)
         setText(newText)
-    }, [])
+    }, [review])
 
     const handleSubmit = () => {
         console.log(rating, text)

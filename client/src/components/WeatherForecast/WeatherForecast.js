@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Grid, Card, Segment } from 'semantic-ui-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSun, faCloudRain, faSnowflake, faSmog } from '@fortawesome/free-solid-svg-icons';
-import { useTheme } from '../../contexts/ThemeProvider'; // Import useTheme
+import { useTheme } from '../../contexts/ThemeProvider';
 
 const WeatherForecast = ({ resort }) => {
   const [forecast, setForecast] = useState(null);
-  const { theme } = useTheme(); // Corrected to destructure theme
+  const { theme } = useTheme();
 
   useEffect(() => {
     const fetchWeather = async () => {
@@ -18,7 +18,7 @@ const WeatherForecast = ({ resort }) => {
         const data = await response.json();
         setForecast(data.forecast.forecastday.slice(0, 3)); // Slice to get only 3 days
       } catch (error) {
-        console.error('Failed to fetch weather data:', error);
+        // console.error('Failed to fetch weather data:', error);
       }
     };
 

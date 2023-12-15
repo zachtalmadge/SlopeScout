@@ -102,9 +102,9 @@ const ResortDetailsPanes = ({ reviews=[], events, addToUserEvents, resort_id }) 
         render: () => (
             <>
                 <Tab.Pane style={paneStyle}>
-                    {resortReviews ? resortReviews.map((review, index) => (
+                    {resortReviews ? resortReviews.map((review) => (
                         <>
-                            <Card key={index}>
+                            <Card key={review.id}>
                                 <Card.Content style={{ backgroundColor: theme === 'light' ? 'white' : "#1B1C1D" }}>
                                     <Card.Description style={{ color: theme === 'light' ? "" : 'white' }}>{review.text}</Card.Description>
                                     <hr />
@@ -148,7 +148,7 @@ const ResortDetailsPanes = ({ reviews=[], events, addToUserEvents, resort_id }) 
             <Tab.Pane style={paneStyle}>
                 {events && sortByDate(events).map((event, index) => (
                     <>
-                        <Card key={index}>
+                        <Card key={event.id}>
                             <Card.Content style={{ backgroundColor: theme === 'light' ? 'white' : "#1B1C1D" }}>
                                 <Card.Header style={{ color: "rgb(33,133,208)" }}>{event.event.name}</Card.Header>
                                 <Card.Description style={{ color: theme === 'light' ? "" : 'white' }}>{event.event.description}</Card.Description>
@@ -166,6 +166,7 @@ const ResortDetailsPanes = ({ reviews=[], events, addToUserEvents, resort_id }) 
                                 eventName={event.event.name}
                                 eventTime={event.time}
                                 onClose={() => setIsModalOpen(false)}
+                                key={index}
                             />
                         )}
                     </>
