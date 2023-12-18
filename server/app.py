@@ -64,6 +64,10 @@ class ResortEvents(Resource):
 
 
 class ResortReview(Resource):
+    def get(self):
+        
+        pass
+    
     def post(self):
         data = request.get_json()
         review = Review(user_id=1, **data)
@@ -71,7 +75,7 @@ class ResortReview(Resource):
             db.session.add(review)
             db.session.commit()
             return review.to_dict(
-                rules=('text', 'rating', 'resort_id')
+                rules=('id', 'text', 'rating', 'resort_id')
                 ), 201
         except Exception as e:
             db.session.rollback()
@@ -79,7 +83,7 @@ class ResortReview(Resource):
 
     def delete(self):
         data = request.get_json()
-        if review:= Review.query.filter_by(**data).first():
+        if review:= db.session.get(Review, data['id']):
             try:
                 db.session.delete(review)
                 db.session.commit()

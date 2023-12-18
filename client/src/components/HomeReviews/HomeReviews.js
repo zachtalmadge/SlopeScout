@@ -48,7 +48,7 @@ const HomeReviews = () => {
   return (
     <Segment style={segmentStyle}>
     <Container>
-      <Header color={theme === 'light' ? '' : 'blue'} as="h2" textAlign="center">
+      <Header color={theme === 'light' ? 'grey' : 'blue'} as="h2" textAlign="center">
         What Our Users Say
       </Header>
       <Grid columns={2} stackable centered>
@@ -61,7 +61,7 @@ const HomeReviews = () => {
                   <FontAwesomeIcon icon={faUserCircle} style={{ marginRight: '5px' }} />
                   {review.name}
                 </Card.Header>
-                <Card.Description style={{color: theme === 'light' ? '' : "white"}}>{review.content}</Card.Description>
+                <Card.Description style={{color: theme === 'light' ? 'grey' : "white"}}>{review.content}</Card.Description>
               </Card.Content>
               <Card.Content extra>
                 <Rating

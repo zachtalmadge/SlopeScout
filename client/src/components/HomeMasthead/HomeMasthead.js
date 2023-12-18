@@ -31,7 +31,7 @@ const Masthead = () => {
                 <p style={{ fontSize: '1.5em' }}>
                     Welcome to SlopeScout, your ultimate guide to ski resorts and events. Discover the best slopes and make your skiing experience unforgettable.
                 </p>
-                <Button color="white" as={Link} to="/allresorts" size="large">
+                <Button color="blue" as={Link} to="/allresorts" size="large">
                     Explore Resorts
                 </Button>
             </Container>

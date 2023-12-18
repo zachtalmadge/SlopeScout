@@ -3,8 +3,8 @@ import { Modal, Button, Icon, Form, Rating } from 'semantic-ui-react';
 
 const ReviewEditModal = ({ review, editReview, open, onClose }) => {
 
-    if (review === null){
-        var review = {
+    if (!review){
+        review = {
             rating: 3,
             text: ''
         }

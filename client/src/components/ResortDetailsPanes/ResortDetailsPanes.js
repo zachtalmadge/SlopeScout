@@ -10,6 +10,8 @@ import ReviewAddModal from '../ReviewAddModal/ReviewAddModal';
 
 const ResortDetailsPanes = ({ reviews=[], events, addToUserEvents, resort_id }) => {
 
+    console.log(reviews)
+
     const URL = 'http://127.0.0.1:5555/resort/reviews';
 
     const { theme } = useTheme();
@@ -46,15 +48,14 @@ const ResortDetailsPanes = ({ reviews=[], events, addToUserEvents, resort_id }) 
     }, [reviews])
 
     const deleteReview = async (review) => {
-        console.log(review)
         const data = {
             id: review.id,
-            resort_id: review.resort_id
         }
         const body = JSON.stringify(data)
         const headers = { "content-type": "application/json" }
         let response = await fetch(`${URL}`, { method: "DELETE", headers, body })
         if (response.ok) {
+            console.log(response)
             let newReviews = resortReviews.filter(reviewID => reviewID.id !== review.id)
             setResortReviews(newReviews)
         } else {
@@ -63,11 +64,13 @@ const ResortDetailsPanes = ({ reviews=[], events, addToUserEvents, resort_id }) 
     }
 
     const addReview = async (review) => {
-        const newReview = {...review, resort_id}
+        let newReview = {...review, resort_id}
         const body = JSON.stringify(newReview)
         const headers = {"content-type": "application/json"}
         let response = await fetch(URL, {method: "POST", headers, body})
         if (response.ok){
+            newReview = await response.json()
+            console.log(newReview)
             setResortReviews(resortReviews => [...resortReviews, newReview])
         } else {
             alert('there was an issue')
@@ -121,14 +124,14 @@ const ResortDetailsPanes = ({ reviews=[], events, addToUserEvents, resort_id }) 
                                     </div>
                                 </Card.Content>
                             </Card>
-                            <ReviewEditModal
-                                review={currentReview}
-                                editReview={editReview}
-                                open={modalOpen}
-                                onClose={() => setModalOpen(false)}
-                            />
                         </>
                     )) : ""}
+                    <ReviewEditModal
+                        review={currentReview}
+                        editReview={editReview}
+                        open={modalOpen}
+                        onClose={() => setModalOpen(false)}
+                    />
                     <ReviewAddModal
                         addReview={addReview}
                         open={isReviewModalOpen}
