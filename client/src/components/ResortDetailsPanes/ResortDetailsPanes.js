@@ -8,7 +8,7 @@ import EventModal from '../EventModal/EventModal';
 import ReviewEditModal from '../../components/ReviewEditModal';
 import ReviewAddModal from '../ReviewAddModal/ReviewAddModal';
 
-const ResortDetailsPanes = ({ reviews=[], events, addToUserEvents, resort_id }) => {
+const ResortDetailsPanes = ({ events, addToUserEvents, resort_id }) => {
 
     console.log(reviews)
 
@@ -17,7 +17,7 @@ const ResortDetailsPanes = ({ reviews=[], events, addToUserEvents, resort_id }) 
     const { theme } = useTheme();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [resortReviews, setResortReviews] = useState([...reviews])
+    const [resortReviews, setResortReviews] = useState([])
 
     // states for edit review modal
     const [modalOpen, setModalOpen] = useState(false);
@@ -42,10 +42,10 @@ const ResortDetailsPanes = ({ reviews=[], events, addToUserEvents, resort_id }) 
 
 
     useEffect(() => {
-        // initial render has reviews at null so component must rerender when data comes in
-        let newReviews = [...reviews]
-        setResortReviews(newReviews)
-    }, [reviews])
+        (async () => {
+            let response = await fetch(URL)
+        })()
+    }, [])
 
     const deleteReview = async (review) => {
         const data = {

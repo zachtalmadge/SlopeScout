@@ -63,14 +63,17 @@ class ResortEvents(Resource):
                 return {'message': str(e)}, 500
 
 
-class ResortReview(Resource):
-    def get(self):
-        data = request.get_json()
+class GetResortReview(Resource):
+     def get(self, resort_id):
         try:
-            reviews = Review.query.filter_by(**data).all()
+            reviews = Review.query.filter_by(resort_id=resort_id).all()
             return [review.to_dict() for review in reviews], 200
         except Exception as e:
             return {"error": str(e)}, 500
+        
+api.add_resource(GetResortReview, '/resort/reviews/<int:resort_id>')
+
+class ResortReview(Resource):
     
     def post(self):
         data = request.get_json()
