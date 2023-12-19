@@ -10,7 +10,6 @@ import ReviewAddModal from '../ReviewAddModal/ReviewAddModal';
 
 const ResortDetailsPanes = ({ events, addToUserEvents, resort_id }) => {
 
-    console.log(reviews)
 
     const URL = 'http://127.0.0.1:5555/resort/reviews';
 
@@ -43,9 +42,12 @@ const ResortDetailsPanes = ({ events, addToUserEvents, resort_id }) => {
 
     useEffect(() => {
         (async () => {
-            let response = await fetch(URL)
+            let response = await fetch(`${URL}/${resort_id}`)
+            let reviews = await response.json()
+            console.log(reviews)
+            setResortReviews(reviews)
         })()
-    }, [])
+    }, [resort_id])
 
     const deleteReview = async (review) => {
         const data = {
