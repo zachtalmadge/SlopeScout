@@ -65,8 +65,12 @@ class ResortEvents(Resource):
 
 class ResortReview(Resource):
     def get(self):
-        
-        pass
+        data = request.get_json()
+        try:
+            reviews = Review.query.filter_by(**data).all()
+            return [review.to_dict() for review in reviews], 200
+        except Exception as e:
+            return {"error": str(e)}, 500
     
     def post(self):
         data = request.get_json()
@@ -136,9 +140,6 @@ class UserEvents(Resource):
 
             # If no UserEvent exists, create a new one
             if resort_event := db.session.get(ResortEvent, resort_event_id):
-                               
-                
-            
                 user_event = UserEvent(user_id=user_id, event_id=resort_event.event_id, resort_id=resort_event.resort_id)
                 db.session.add(user_event)
                 db.session.commit()

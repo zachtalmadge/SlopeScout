@@ -21,13 +21,11 @@ const ReviewEditModal = ({ review, editReview, open, onClose }) => {
     }, [review])
 
     const handleSubmit = () => {
-        console.log(rating, text)
         const id = review.id
         editReview({ id, rating, text });
         onClose();
     };
 
-    console.log(review)
 
     return (
         <Modal open={open} onClose={onClose}>

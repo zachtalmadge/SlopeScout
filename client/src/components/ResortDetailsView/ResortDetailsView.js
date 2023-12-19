@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Container, Header, Icon, Image, Button, Grid, Tab, Divider } from 'semantic-ui-react';
+import { Container, Header, Icon, Image, Button, Grid, Divider } from 'semantic-ui-react';
 import ResortDetailsPanes from '../ResortDetailsPanes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark } from '@fortawesome/free-solid-svg-icons';
