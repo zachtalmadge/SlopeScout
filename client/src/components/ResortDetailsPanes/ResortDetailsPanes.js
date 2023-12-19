@@ -25,7 +25,7 @@ const ResortDetailsPanes = ({ events, addToUserEvents, resort_id }) => {
 
     // Pagination state for reviews
     const [currentReviewPage, setCurrentReviewPage] = useState(1);
-    const reviewsPerPage = 4;
+    const reviewsPerPage = 5;
 
     // Pagination state for events
     const [currentEventPage, setCurrentEventPage] = useState(1);

@@ -8,8 +8,6 @@ import { useTheme } from '../../contexts/ThemeProvider';
 import WeatherForecast from '../WeatherForecast';
 import { useOutletContext } from 'react-router-dom';
 
-
-
 const URL = "http://127.0.0.1:5555/user/1/bookmark"
 
 const ResortDetailsView = ({ resort }) => {
