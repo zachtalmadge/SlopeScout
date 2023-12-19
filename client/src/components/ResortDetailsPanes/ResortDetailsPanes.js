@@ -93,6 +93,7 @@ const ResortDetailsPanes = ({ events, addToUserEvents, resort_id }) => {
     };
 
     const handleEventClick = (event) => {
+        addToUserEvents(event)
         setSelectedEvent(event);
         setIsModalOpen(true);
     };
@@ -196,7 +197,6 @@ const ResortDetailsPanes = ({ events, addToUserEvents, resort_id }) => {
                 </div>
                 {isModalOpen && selectedEvent && (
                     <EventModal
-                        addToUserEvents={addToUserEvents}
                         eventName={selectedEvent.event.name}
                         eventTime={selectedEvent.time}
                         onClose={() => setIsModalOpen(false)}
@@ -205,7 +205,6 @@ const ResortDetailsPanes = ({ events, addToUserEvents, resort_id }) => {
             </Tab.Pane>
         ),
     };
-    
 
     const panes = [reviewPanes, eventPanes];
 

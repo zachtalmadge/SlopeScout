@@ -78,7 +78,7 @@ const { formattedDate, formattedTime } = formatDateTime(eventTime)
         <Button onClick={onClose} color='grey'>
           No
         </Button>
-        <Button color='primary' onClick={handleRegister} disabled={loading}>
+        <Button color='blue' onClick={handleRegister} disabled={loading}>
           {loading ? (
             <Dimmer active inverted>
               <Loader size='small'>Sending Email...</Loader>

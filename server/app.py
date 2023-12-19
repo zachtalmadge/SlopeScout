@@ -14,10 +14,6 @@ from models import (
     Review
 )
 
-fake = Faker()
-
-
-
 # Routes
 class Resorts(Resource):
     def get(self):
@@ -45,23 +41,6 @@ class ResortByID(Resource):
                 rules=('id', 'name', 'city', 'state', 'description', 'events', 'bookmarks', 'reviews', 'resort_map')
             )
         return {'message': 'Resort not found'}, 404
-
-
-class ResortEvents(Resource):
-    def post(self, resort_id, event_id):
-            # Assuming event_id is provided in the request body if needed
-            # data = request.get_json()
-            resort_event = ResortEvent(resort_id=resort_id, event_id=event_id, time=fake.date_time_this_year())
-            print(resort_event)
-            try:
-                db.session.add(resort_event)
-                db.session.commit()
-                return resort_event.to_dict(), 201
-
-            except Exception as e:
-                db.session.rollback()
-                return {'message': str(e)}, 500
-
 
 class GetResortReview(Resource):
      def get(self, resort_id):
@@ -118,57 +97,8 @@ class ResortReview(Resource):
 api.add_resource(ResortReview, '/resort/reviews')
 
 
-class UserEvents(Resource):
-    
-    # '/user/<int:user_id>/event/<int:resort_event_id>'
-    
-    def get(self, user_id, resort_event_id=None):
-        try:
-            if user := db.session.get(User, user_id):
-                print(user)
-                return [event.to_dict() for event in user.user_events], 200
-            
-        except Exception as e:
-            return {'message': str(e)}, 500
-
-    def post(self, user_id, resort_event_id):
-        try:
-            # Check if a UserEvent with the same user_id and event_id exists
-            existing_user_event = UserEvent.query.filter_by(
-                user_id=user_id, event_id=resort_event_id).first()
-
-            if existing_user_event:
-                # If a UserEvent already exists, return an error response
-                return {'message': 'User has already registered for this event'}, 400
-
-            # If no UserEvent exists, create a new one
-            if resort_event := db.session.get(ResortEvent, resort_event_id):
-                user_event = UserEvent(user_id=user_id, event_id=resort_event.event_id, resort_id=resort_event.resort_id)
-                db.session.add(user_event)
-                db.session.commit()
-                return user_event.to_dict(), 201
-        except Exception as e:
-            db.session.rollback()
-            return {'message': str(e)}, 500
-
-    def delete(self, user_id, resort_event_id):
-        try:
-            if user_event:= UserEvent.query.filter_by(user_id=user_id, event_id=resort_event_id).first():
-                db.session.delete(user_event)
-                db.session.commit()
-                return {'message': 'Event registration deleted'}, 200
-            return {'message': 'Event registration not found'}, 404
-        except Exception as e:
-            db.session.rollback()
-            return {'message': str(e)}, 500
-
-
 class UserBookmarks(Resource):
-    
-    # route '/user/<int:user_id>/bookmark/<int:resort_id>'
-    # HARD CODING USER_ID TO 1 BEFORE IMPLEMENTING AUTH
-    
-    
+
     def get(self, user_id, resort_id):
         try:
             bookmarks = Bookmark.query.filter_by(user_id=user_id).all()
@@ -211,16 +141,8 @@ api.add_resource(Resorts, '/resorts')
 # Get resort by ID ✅✅✅
 api.add_resource(ResortByID, '/resorts/<int:id>')
 
-# Post an event to a resort ✅✅✅
-api.add_resource(ResortEvents, '/resort/<int:resort_id>/event/<int:event_id>')
-
-
-
 # Get / Post / Delete a user bookmark ✅✅✅
 api.add_resource(UserBookmarks, '/user/<int:user_id>/bookmark/<int:resort_id>')
-
-# Get / Post / Delete a user event ✅✅✅
-api.add_resource(UserEvents, '/user/<int:user_id>/event/<int:resort_event_id>')
 
 # Get all types of events ✅✅✅
 api.add_resource(Events, '/events')
