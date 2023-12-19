@@ -13,6 +13,8 @@ const ResortDetails =  () => {
 
     const { data } = useFetch(`${URL}/${id}`)
 
+    console.log(data)
+
     const navigate = useNavigate()
 
     // the response body will only include a message if the resort is not found

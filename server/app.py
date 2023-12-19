@@ -42,7 +42,7 @@ class ResortByID(Resource):
     def get(self, id):
         if resort := Resort.query.get(id):
             return resort.to_dict(
-                rules=('id', 'name', 'city', 'state', 'description', 'events', 'bookmarks', 'reviews')
+                rules=('id', 'name', 'city', 'state', 'description', 'events', 'bookmarks', 'reviews', 'resort_map')
             )
         return {'message': 'Resort not found'}, 404
 

@@ -29,6 +29,7 @@ class Resort(db.Model, SerializerMixin):
     city = db.Column(db.String)
     state = db.Column(db.String)
     description = db.Column(db.String)
+    resort_map = db.Column(db.String)
 
     # Relationships
     events = db.relationship('ResortEvent', back_populates='resort', cascade='all, delete-orphan')

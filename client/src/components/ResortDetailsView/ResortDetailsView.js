@@ -2,18 +2,23 @@ import { useState } from 'react';
 import { Container, Header, Icon, Image, Button, Grid, Divider } from 'semantic-ui-react';
 import ResortDetailsPanes from '../ResortDetailsPanes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBookmark } from '@fortawesome/free-solid-svg-icons';
+import { faBookmark, faMap } from '@fortawesome/free-solid-svg-icons';
 import BookmarkModal from '../BookmarkModal';
 import { useTheme } from '../../contexts/ThemeProvider';
 import WeatherForecast from '../WeatherForecast';
 import { useOutletContext } from 'react-router-dom';
+import ResortMapModal from '../ResortMapModal'
 
 const URL = "http://127.0.0.1:5555/user/1/bookmark"
 
 const ResortDetailsView = ({ resort }) => {
-  const { id, name, description, state, city, reviews, events } = resort;
+  const { id, name, description, state, city, reviews, events, resort_map } = resort;
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
+  const [isMapModalOpen, setIsMapModalOpen] = useState(false);
+
+  const openMapModal = () => setIsMapModalOpen(true);
+  const closeMapModal = () => setIsMapModalOpen(false);
 
   const { userEvents, setUserEvents } = useOutletContext()
 
@@ -79,8 +84,13 @@ const ResortDetailsView = ({ resort }) => {
                     <FontAwesomeIcon icon={faBookmark} style={{ marginRight: "5px" }} />
                     Bookmark
                   </Button>
+                  <Button onClick={openMapModal} inverted={theme === 'dark'} primary>
+                  <FontAwesomeIcon icon={faMap} style={{ marginRight: "5px" }} />
+                    View Map
+                  </Button>
+
                 </div>
-                <WeatherForecast resort={resort.city}/>
+                <WeatherForecast resort={resort.city} />
                 <Divider />
                 <Image style={{ width: '80%' }} src="../assets/night_resort_placeholder.png" alt={name} />
               </Grid.Column>
@@ -96,6 +106,11 @@ const ResortDetailsView = ({ resort }) => {
             message={modalMessage}
             open={modalOpen}
             onClose={() => setModalOpen(false)}
+          />
+          <ResortMapModal
+            resort_map={resort_map}
+            isOpen={isMapModalOpen}
+            onClose={closeMapModal}
           />
         </Container>
       </Container>

@@ -1,14 +1,8 @@
 """empty message
 
-<<<<<<<< HEAD:server/migrations/versions/7beec9d03f27_.py
-Revision ID: 7beec9d03f27
+Revision ID: 88391e715754
 Revises: 
-Create Date: 2023-12-08 19:17:38.657872
-========
-Revision ID: d68048227ef9
-Revises: 
-Create Date: 2023-12-08 13:56:41.437512
->>>>>>>> parent of 96c9a6a (post matteo debug session):server/migrations/versions/d68048227ef9_.py
+Create Date: 2023-12-19 10:41:09.993202
 
 """
 from alembic import op
@@ -16,11 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-<<<<<<<< HEAD:server/migrations/versions/7beec9d03f27_.py
-revision = '7beec9d03f27'
-========
-revision = 'd68048227ef9'
->>>>>>>> parent of 96c9a6a (post matteo debug session):server/migrations/versions/d68048227ef9_.py
+revision = '88391e715754'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -40,6 +30,7 @@ def upgrade():
     sa.Column('city', sa.String(), nullable=True),
     sa.Column('state', sa.String(), nullable=True),
     sa.Column('description', sa.String(), nullable=True),
+    sa.Column('resort_map', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('users',
@@ -76,13 +67,9 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('event_id', sa.Integer(), nullable=True),
-<<<<<<<< HEAD:server/migrations/versions/7beec9d03f27_.py
     sa.Column('resort_id', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['event_id'], ['resort_events.id'], name=op.f('fk_user_events_event_id_resort_events')),
+    sa.ForeignKeyConstraint(['event_id'], ['events.id'], name=op.f('fk_user_events_event_id_events')),
     sa.ForeignKeyConstraint(['resort_id'], ['resorts.id'], name=op.f('fk_user_events_resort_id_resorts')),
-========
-    sa.ForeignKeyConstraint(['event_id'], ['resort_events.id'], name=op.f('fk_user_events_event_id_resort_events')),
->>>>>>>> parent of 96c9a6a (post matteo debug session):server/migrations/versions/d68048227ef9_.py
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], name=op.f('fk_user_events_user_id_users')),
     sa.PrimaryKeyConstraint('id')
     )
