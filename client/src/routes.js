@@ -5,11 +5,13 @@ import ResortDetails from './pages/ResortDetails'
 import Bookmarks from './pages/Bookmarks/Bookmarks'
 import MyEvents from './pages/MyEvents/MyEvents'
 import SearchPage from './pages/SearchPage/SearchPage'
+import ErrorComponent from './pages/ErrorComponent'
 
 const routes = [
     {
         path: '/',
         element: <App />,
+        errorElement: <ErrorComponent />,
         children: [
             {
                 path: '/',
@@ -37,6 +39,10 @@ const routes = [
             {
                 path: '/search',
                 element: <SearchPage />
+            },
+            {
+                path: '/error',
+                element: <ErrorComponent/>
             }
         ]
     }

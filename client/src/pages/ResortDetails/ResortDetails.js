@@ -1,7 +1,8 @@
+import { useEffect } from 'react'
 import useFetch from "../../hooks/useFetch"
 import { useParams } from "react-router-dom";
 import ResortDetailsView from "../../components/ResortDetailsView";
-
+import { useNavigate } from "react-router-dom";
 
 const URL = 'http://127.0.0.1:5555/resorts';
 
@@ -12,12 +13,14 @@ const ResortDetails =  () => {
 
     const { data } = useFetch(`${URL}/${id}`)
 
-    // console.log(data)
+    const navigate = useNavigate()
 
-    // resort data along with all reviews stored on data
-    // would need to make fetch call to submit the review to persist in server
-    // can either then refresh the page(not cool)
-    // or add the added review in state here
+    // the response body will only include a message if the resort is not found
+    useEffect(() => {
+        if (data.message){
+            navigate('/error')
+        }
+    })
 
     return <ResortDetailsView resort={data} />
 }
