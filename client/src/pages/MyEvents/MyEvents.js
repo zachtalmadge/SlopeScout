@@ -59,7 +59,7 @@ const MyEvents = () => {
                                         </Card.Description>
                                     </Card.Content>
                                     <Card.Content extra>
-                                        <Button color='red' onClick={() => handleRemoveEvent(event.id)}>
+                                        <Button color='red' inverted={theme === 'dark'} onClick={() => handleRemoveEvent(event.id)}>
                                             Remove Event
                                         </Button>
                                     </Card.Content>
