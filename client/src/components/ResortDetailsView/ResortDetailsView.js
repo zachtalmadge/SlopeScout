@@ -39,8 +39,8 @@ const ResortDetailsView = ({ resort }) => {
   const containerStyle = {
     backgroundColor: theme === 'light' ? 'white' : '#1B1C1D', // Dark mode background
     color: theme === 'light' ? 'black' : 'white', // Dark mode text color
-    paddingTop: "50px"
-    // Add other styling as needed
+    paddingTop: "50px",
+    paddingBottom: "50px",
   };
 
   const submitBookmark = async (id) => {
