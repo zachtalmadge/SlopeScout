@@ -159,14 +159,15 @@ def create_reviews():
     users = User.query.all()
     resorts = Resort.query.all()
 
-    for _ in range(100):
-        review = Review(
-            text=fake.text(),
-            rating=randint(3, 5),
-            user_id=rc(users).id ,
-            resort_id=rc(resorts).id
-        )
-        db.session.add(review)
+    for resort in resorts:
+        for _ in range(randint(5, 10)):  # Each resort gets 5 to 10 reviews
+            review = Review(
+                text=fake.paragraph(nb_sentences=5),  # More realistic review text
+                rating=randint(1, 5),  # Rating from 1 to 5
+                user_id=rc(users).id,
+                resort_id=resort.id  # Assign the current resort's ID
+            )
+            db.session.add(review)
     db.session.commit()
 
 if __name__ == '__main__':
