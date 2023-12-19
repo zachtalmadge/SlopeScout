@@ -39,13 +39,13 @@ const ResortDetailsPanes = ({ events, addToUserEvents, resort_id }) => {
         setModalOpen(true);
     };
 
-
     useEffect(() => {
         (async () => {
             let response = await fetch(`${URL}/${resort_id}`)
-            let reviews = await response.json()
-            console.log(reviews)
-            setResortReviews(reviews)
+            if (response.ok) {
+                let reviews = await response.json()
+                setResortReviews(reviews)
+            }
         })()
     }, [resort_id])
 
@@ -67,9 +67,12 @@ const ResortDetailsPanes = ({ events, addToUserEvents, resort_id }) => {
 
     const addReview = async (review) => {
         let newReview = {...review, resort_id}
+
         const body = JSON.stringify(newReview)
         const headers = {"content-type": "application/json"}
+
         let response = await fetch(URL, {method: "POST", headers, body})
+
         if (response.ok){
             newReview = await response.json()
             console.log(newReview)
