@@ -11,7 +11,7 @@ const WeatherForecast = ({ resort }) => {
   useEffect(() => {
     const fetchWeather = async () => {
       const apiKey = '0043088228814a3dbf9182754231212';
-      const url = `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${resort}&days=7&aqi=no&alerts=no`;
+      const url = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${resort}&days=7&aqi=no&alerts=no`;
 
       try {
         const response = await fetch(url);
