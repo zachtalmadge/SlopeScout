@@ -62,10 +62,10 @@ const WeatherForecast = ({ resort }) => {
             <Card>
               <Card.Content>
                 <FontAwesomeIcon icon={getWeatherIcon(day.day.condition.text)} size="2x" />
-                <Card.Header style={{marginTop: "5px"}}>{formatDate(day.date)}</Card.Header>
-                  {day.day.condition.text}
+                <Card.Header style={{ marginTop: "5px" }}>{formatDate(day.date)}</Card.Header>
+                {day.day.condition.text}
                 <Card.Meta>
-                  High: {day.day.maxtemp_f}°F <br/> Low: {day.day.mintemp_f}°F
+                  High: {day.day.maxtemp_f}°F <br /> Low: {day.day.mintemp_f}°F
                 </Card.Meta>
                 <Card.Description>
                   Chance of rain: {day.day.daily_chance_of_rain}%
